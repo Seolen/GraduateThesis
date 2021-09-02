@@ -1,0 +1,11 @@
+*.aux
+*.pdf
+!shanghaitech-emblem.pdf
+*.bcf
+*.lof
+*.log
+*.lot
+*.out
+*.synctex.gz
+*.toc
+tex/*.aux

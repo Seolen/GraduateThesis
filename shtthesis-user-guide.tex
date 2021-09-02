@@ -1,0 +1,216 @@
+% shtthesis, an unofficial LaTeX thesis template for ShanghaiTech University.
+% Copyright (C) 2021 Li Rundong <rundong.001@gmail.com>
+%
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with this program.  If not, see <https://www.gnu.org/licenses/>
+
+% graduate setup
+\documentclass[master]{shtthesis}
+\shtsetup{
+  degree-name = {工学硕士},
+  degree-name* = {Master~of~Science~in~Engineering},
+%   secret-level = {白给},
+  title = {基于深度学习的语义匹配},
+  title* = {Semantic Correspondence based on Deep Learning},
+  keywords = {语义匹配，弱监督深度学习，空间上下文……},
+  keywords* = {Semantic Correspondence, Weakly-supervised Deep Learning, Spatial Context...},
+  author = {黄帅一},
+  author* = {Huang~Shuaiyi},
+  institution = {上海科技大学信息科学与技术学院},
+  institution* = {School~of~Information~Science~and~Technology\\%
+                  ShanghaiTech~University},
+  supervisor = {何旭明~副教授},
+  supervisor* = {Professor~He~Xuming},
+  supervisor-institution = {上海科技大学信息科学与技术学院},
+  discipline-level-1 = {计算机科学与技术},
+  discipline-level-1* = {Computer~Science~and~Technology},
+  bib-resource = {reference.bib},
+}
+
+% undergraduate setup
+% \documentclass[bachelor, comfort]{shtthesis}
+% \shtsetup{
+%   title = {\ShtThesis{}~v\version{}\\使用说明},
+%   title* = {A~User's~Guide~to\\\ShtThesis{}~v\version{}},
+%   keywords = {上海科技大学，学位论文，\LaTeX{}},
+%   keywords* = {ShanghaiTech~University, Thesis, \LaTeX{}},
+%   date = {2021~年~02~月},
+%   date* = {02~/~2021},
+%   author = {李润东},
+%   author* = {Rundong~Li},
+%   author-id = {36273800},
+%   entrance-year = {2017},
+%   institution = {信息科学与技术学院},
+%   institution* = {School~of~Information~Science~and~Technology},
+%   supervisor = {范睿},
+%   supervisor* = {Rui~Fan},
+%   discipline = {计算机科学与技术},
+%   discipline* = {Computer~Science~and~Technology},
+%   bib-resource = {reference.bib},
+% }
+
+% `latex' and `shell' environments are adapted from `thuthesis'
+\usepackage{listings}
+\newcommand\prompt{\textup{\$}}
+\lstdefinestyle{lstStyleBase}{%
+  basicstyle=\small\ttfamily,
+  aboveskip=\medskipamount,
+  belowskip=\medskipamount,
+  lineskip=0pt,
+  boxpos=c,
+  showlines=false,
+  extendedchars=true,
+  upquote=true,
+  tabsize=2,
+  showtabs=false,
+  showspaces=false,
+  showstringspaces=false,
+  numbers=none,
+  linewidth=\linewidth,
+  xleftmargin=4pt,
+  xrightmargin=0pt,
+  resetmargins=false,
+  breaklines=true,
+  breakatwhitespace=false,
+  breakindent=0pt,
+  breakautoindent=true,
+  columns=flexible,
+  keepspaces=true,
+  gobble=0,
+  framesep=3pt,
+  rulesep=1pt,
+  framerule=1pt,
+  frame=l,
+  rulecolor=\color{ShtRed},
+  backgroundcolor=\color{gray!5},
+  stringstyle=\color{green!40!black!100},
+  keywordstyle=\bfseries\color{blue!50!black},
+  commentstyle=\slshape\color{black!60},
+  escapeinside={`'},
+}
+\lstdefinestyle{lstStyleShell}{%
+  style=lstStyleBase,
+  language=bash}
+\lstdefinestyle{lstStyleLaTeX}{%
+  style=lstStyleBase,
+  language=[LaTeX]TeX}
+\lstnewenvironment{latex}{\lstset{style=lstStyleLaTeX}}{}
+\lstnewenvironment{shell}{\lstset{style=lstStyleShell}}{}
+
+\usepackage{hologo}
+\ifluahbtex
+  \usepackage{emoji}
+\else
+  \providecommand{\emoji}[1]{ \fbox{\emph{#1}} }
+\fi
+
+\usepackage{subcaption}
+\usepackage{ctable}
+\usepackage[list=off]{bicaption}
+\captionsetup[figure][bi-second]{name=Figure}
+\captionsetup[table][bi-second]{name=Table}
+
+\makeatletter
+  \def\ifundergraduate{\ifsht@undergraduate}
+  \def\ifgraduate{\ifsht@graduate}
+\makeatother
+
+%% filecontents is optional
+\begin{filecontents}{reference.bib}
+@article{stamerjohanns2009mathml,
+    title={{MathML}-aware article conversion from {LaTeX}},
+    author={Stamerjohanns, Heinrich and Ginev, Deyan and David, Catalin and Misev, Dimitar and Zamdzhiev, Vladimir and Kohlhase, Michael},
+    journal={Towards a Digital Mathematics Library},
+    volume={16},
+    number={2},
+    pages={109--120},
+    year={2009},
+    publisher={Masaryk University Press}
+}
+% @proceedings{niu2013zonghe,
+%     editor       = {牛志明 and 斯温兰德 and 雷光春},
+%     key          = {Niu Zhi Ming Siwenlande Lei Guang Chun},
+%     title        = {综合湿地管理国际研讨会论文集},
+%     address      = {北京},
+%     publisher    = {海洋出版社},
+%     year         = {2013},
+% }
+% @incollection{chen1980zhongguo,
+%     author       = {陈晋镳 and 张惠民 and 朱士兴 and 赵震 and 王振刚},
+%     key          = {Chen Jing Ao Zhang Hui Ming Zhu Shi Xing Zhao Zhen Wang Zhen Gang},
+%     title        = {蓟县震旦亚界研究},
+%     editor       = {中国地质科学院天津地质矿产研究所},
+%     booktitle    = {中国震旦亚界},
+%     address      = {天津},
+%     publisher    = {天津科学技术出版社},
+%     year         = {1980},
+%     pages        = {56--114},
+% }
+% @online{clerkma2013unicode,
+%   author = {Clerk Ma},
+%   title = {如何在{XeTeX}中单独设置数学字体，为什么{STIX}的数学字体很牛？},
+%   year = 2013,
+%   url = {https://www.zhihu.com/question/20592491/answer/15577847},
+%   urldate = {2020-06-30}
+% }
+\end{filecontents}
+
+\begin{document}
+
+\maketitle
+
+\frontmatter
+\include{tex/abstract.tex}
+
+\makeindices
+\makebiblio
+
+%% 额外的符号说明
+% \ifgraduate
+% \begin{nomenclatures}
+%   \header[单位]{符号}{说明}
+%   \item[$\symup{{m^{2} \cdot s^{-2} \cdot K^{-1}}}$]{$R$}{the gas constant}
+%   \item[$\symup{{m^{2} \cdot s^{-2} \cdot K^{-1}}}$]{$C_v$}{specific heat capacity at constant volume}
+%   \item[$\symup{{m^{2} \cdot s^{-2} \cdot K^{-1}}}$]{$C_p$}{specific heat capacity at constant pressure}
+%   \item[$\symup{{m^{2} \cdot s^{-2}}}$]{$E$}{specific total energy}
+%   \item[$\symup{{kg \cdot m \cdot s^{-3} \cdot K^{-1}}}$]{$k$}{thermal conductivity}
+%   \item[$\symup{{kg \cdot m^{-1} \cdot s^{-2}}}$]{$S_{ij}$}{deviatoric stress tensor}
+%   \item[$\symup{{kg \cdot m^{-1} \cdot s^{-2}}}$]{$\tau_{ij}$}{viscous stress tensor}
+%   \item[$\symup{{1}}$]{$\delta_{ij}$}{Kronecker tensor}
+% \end{nomenclatures}
+
+% \begin{nomenclatures}[缩写]
+%   \header{缩写}{全称}
+%   \item{CFD}{Computational Fluid Dynamics}
+%   \item{CFL}{Courant-Friedrichs-Lewy}
+%   \item{WENO}{Weighted Essentially Non-oscillatory}
+%   \item{ZND}{Zel'dovich-von Neumann-Doering}
+% \end{nomenclatures}
+
+% \begin{nomenclatures}[算子 \& 说明]
+%   \item{$\Delta$}{difference}
+%   \item{$\nabla$}{gradient operator}
+%   \item{$\delta^{\pm}$}{upwind-biased interpolation scheme}
+% \end{nomenclatures}
+% \fi
+
+\mainmatter
+\include{tex/intro.tex}
+\include{tex/related.tex}
+\include{tex/part1.tex}
+\include{tex/part2.tex}
+\include{tex/conclusion.tex}
+\backmatter
+\include{tex/acknow.tex}
+
+\end{document}
