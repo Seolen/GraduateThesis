@@ -1,0 +1,97 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.1 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{gb7714-2015/global//global/global}
+    \entry{stamerjohanns2009mathml}{article}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=c9142d92c13551900d17e78ea7b369d2}{%
+           family={Stamerjohanns},
+           familyi={S\bibinitperiod},
+           given={Heinrich},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d72ad64c572c227e5fcd5a3c47e53753}{%
+           family={Ginev},
+           familyi={G\bibinitperiod},
+           given={Deyan},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0c9c29d921eeb7cade8c6f6645842d28}{%
+           family={David},
+           familyi={D\bibinitperiod},
+           given={Catalin},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f279ad2d6c278b4835fc8efda7c802e3}{%
+           family={Misev},
+           familyi={M\bibinitperiod},
+           given={Dimitar},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7f78170974793da0beb51a50bc3fad0e}{%
+           family={Zamdzhiev},
+           familyi={Z\bibinitperiod},
+           given={Vladimir},
+           giveni={V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2e832785205772b3f6e09c93b51d6e74}{%
+           family={Kohlhase},
+           familyi={K\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{publisher}{1}{%
+        {Masaryk University Press}%
+      }
+      \strng{namehash}{c9142d92c13551900d17e78ea7b369d2}
+      \strng{fullhash}{a536e775eb2a9bdf738f75249f5d9226}
+      \strng{bibnamehash}{102470ce69915609d3bee02ed059d6a0}
+      \strng{authorbibnamehash}{102470ce69915609d3bee02ed059d6a0}
+      \strng{authornamehash}{c9142d92c13551900d17e78ea7b369d2}
+      \strng{authorfullhash}{a536e775eb2a9bdf738f75249f5d9226}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Towards a Digital Mathematics Library}
+      \field{langid}{english}
+      \field{lansortorder}{4}
+      \field{number}{2}
+      \field{title}{{MathML}-aware article conversion from {LaTeX}}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{volume}{16}
+      \field{year}{2009}
+      \field{dateera}{ce}
+      \field{pages}{109\bibrangedash 120}
+      \range{pages}{12}
+      \keyw{stamerjohanns2009mathml}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

@@ -125,18 +125,18 @@
   \def\ifgraduate{\ifsht@graduate}
 \makeatother
 
-%% filecontents is optional
+%% filecontents
 \begin{filecontents}{reference.bib}
-@article{stamerjohanns2009mathml,
-    title={{MathML}-aware article conversion from {LaTeX}},
-    author={Stamerjohanns, Heinrich and Ginev, Deyan and David, Catalin and Misev, Dimitar and Zamdzhiev, Vladimir and Kohlhase, Michael},
-    journal={Towards a Digital Mathematics Library},
-    volume={16},
-    number={2},
-    pages={109--120},
-    year={2009},
-    publisher={Masaryk University Press}
-}
+% @article{stamerjohanns2009mathml,
+%     title={{MathML}-aware article conversion from {LaTeX}},
+%     author={Stamerjohanns, Heinrich and Ginev, Deyan and David, Catalin and Misev, Dimitar and Zamdzhiev, Vladimir and Kohlhase, Michael},
+%     journal={Towards a Digital Mathematics Library},
+%     volume={16},
+%     number={2},
+%     pages={109--120},
+%     year={2009},
+%     publisher={Masaryk University Press}
+% }
 % @proceedings{niu2013zonghe,
 %     editor       = {牛志明 and 斯温兰德 and 雷光春},
 %     key          = {Niu Zhi Ming Siwenlande Lei Guang Chun},
@@ -173,7 +173,7 @@
 \include{tex/abstract.tex}
 
 \makeindices
-\makebiblio
+
 
 %% 额外的符号说明
 % \ifgraduate
@@ -210,6 +210,7 @@
 \include{tex/part1.tex}
 \include{tex/part2.tex}
 \include{tex/conclusion.tex}
+\makebiblio
 \backmatter
 \include{tex/acknow.tex}
 
