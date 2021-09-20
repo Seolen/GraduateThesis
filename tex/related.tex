@@ -79,42 +79,71 @@
 
 
 \section{自学习方法}
-训练数据的缺乏是学习中的常见问题，自学习方法有望作为一种解决方案。
-自学习方法通过___
+学习任务中，训练数据的缺乏是很常见的困难，而自学习方法可以作为一种解决方案。
+自学习方法一般利用未标注的数据集进行训练，不同于自监督的学习方法中用数据自身信号作为训练目标，自学习方法的训练目标与目标任务一致。因此，训练数据及标签产生方式、学习方式是其核心问题。近期的工作将自学习方法应用于分类任务\citep{raina2007self,wang2013robust,feng2020autoencoder}、聚类任务\citep{li2017self,dai2008self,}和定位任务\citep{bazzani2016self,jie2017deep}，较好地利用了未标注数据训练并随之提高目标任务的性能。我们考虑将自学习方法引入到弱监督语义分割中，解决形状先验的学习问题。就我们所知，迄今还没有工作探索过类似的方向。本节详细介绍一些运用自学习方法的相关工作。
 
-\citet{Raina}
+在分类任务上，\citet{raina2007self} 通过在未标注数据集上应用自学习方法，利用学到的特征提升在给定数据集的分类性能。自学习方法所使用的未标注数据集不受目标任务的限制。这篇文章出于对图像相似的基本视觉模式（如边缘）的观察，尝试从未标注数据中学习到简洁的、高阶特征的表示，这种表示可以使目标分类任务更容易。
+具体地，作者所提出的自学习方法包括两个阶段。首先，在未标注数据上定义用稀疏编码构建高阶特征的优化问题，通过解这样的优化问题，可以得到图像的稀疏高阶表示。图~\ref{c2_fig7}展示了从图像块学习到的稀疏编码基向量，每个方格表示一种基。然后，这种已被学到的表征可以被应用于不同的分类任务，提高目标任务的效果。
+    \begin{figure*}[tbp]
+        \centering 
+        \includegraphics[width=1.0\textwidth]{img/c2/rel_b1.png}
+        \bicaption{从图像块学习到的稀疏编码基向量的例子}{Example sparse coding bases learned from image patches.}
+        \label{c2_fig7}
+    \end{figure*}
 
 
-\citet{Li}
+在聚类任务上，\citet{li2017self} 观察到之前的自学习方法通常会忽略数据中的结构信息，因此专注于建立一个自学习编码框架，它可以有效地利用从辅助数据集抽象出来的丰富的低级模式信息，来描述描述目标数据集的高级结构信息。通过利用从辅助域和目标域中学习到的高质量字典，该方法为目标域中的样本学习了富有表现力的编码。由于许多类型的视觉数据已被证明包含子空间结构，作者在编码目标中引入了低秩约束，以更好地描述给定目标集的结构。这种提出的自学习的低秩编码框架，被形式化为一个非凸的秩最小化和字典学习问题。
 
+模型框架如图~\ref{c2_fig8}。目标域的一个小数据集不足以提取有效的特征，通过利用辅助域的数据集，模型学习到一个共享字典，并对目标域的系数矩阵施加低秩约束，产生新的特征表示。随后这种特征表示作为图像聚类或分类任务的输入，提升训练性能。
+    \begin{figure*}[tbp]
+        \centering 
+        \includegraphics[width=1.0\textwidth]{img/c2/rel_b2.png}
+        \bicaption{自学习的低秩编码模型}{Diagram of the S-Low coding framework.}
+        \label{c2_fig8}
+    \end{figure*}
 
-\citet{Bazzani}
-
-
+在定位任务上，\citet{bazzani2016self} 设计了自学习的物体定位方法，不要求真实的的边界框标签。其关键思想是，当人为遮挡图像的不同区域时输出的类别识别概率会变化，分析这种变化可以找到包含该物体的区域。图~\ref{c2_fig9} 描述了部分遮蔽出的图像在卷积网络的传播，从而影响识别概率过程。
+这种思想被融入到分层聚类方法，产生自学习的边界框标签。
+    \begin{figure*}[tbp]
+        \centering 
+        \includegraphics[width=1.0\textwidth]{img/c2/rel_b3.png}
+        \bicaption{原图像（第一行）、被遮挡的图像（第二行）以及它们在卷积网络的各层输出。}{The image (first row), its mask-out version (second row) and the outputs of different layers of the convolutional network.}
+        \label{c2_fig9}
+    \end{figure*}
+这篇文章提出的物体定位方法在准确率和召回率上都优于之前的方法，在 ILSVRC-2012 数据集上比之前最好的方法有大幅的提升。并且，自学习方法生成的标签用于训练定位模型，定位结果与真实标注的训练结果非常接近。
 
 \section{降噪自编码器}
-降噪自编码器将图像编码到高维空间的一个隐向量，该向量对噪声具有不变性，可以表示原始图像。
+降噪自编码器目标是将输入图像编码到高维空间的一个隐向量，该向量对噪声具有不变性，作为原始图像的鲁棒表示。近来有一些工作应用降噪自编码器来产生更好的图像表征和对输入的抗干扰能力。
+\citet{vincent2010stacked} 探索构建一种基于堆叠的降噪自编码器的深度网络，来提高模型的泛化性与分类准确率。这些自编码器经过训练，具有对被噪声干扰的输入图像进行降噪的能力。这种网络表现出明显的低分类误差，这种以无监督方式学习的高层次语义表征也有助于提高后续 SVM 的性能。
+具体地，图~\ref{c2_fig10}是降噪自编码器的结构。原始输入样本被随机地做噪声增强，然后通过自动编码器映射到隐向量，再通过自动解码器重建输入样本，重建损失函数由重建样本与原始样本的误差衡量。这种训练方式使模型具有了降噪和恢复原始干净样本的能力。这项工作表明了无监督任务目标中，降噪标准对学习一个有用的高阶表征的指导意义。
+    \begin{figure*}[tbp]
+        \centering 
+        \includegraphics[width=1.0\textwidth]{img/c2/rel_b4.png}
+        \bicaption{降噪自编码器的结构。}{The denoising autoencoder architecture.}
+        \label{c2_fig10}
+    \end{figure*}
 
-\citet{Vincent}
-
-
-\citet{Sundermeyer}
-
-
+在三维姿态估计中，为了解决之前工作中对物体遮挡等动态变化、训练数据不足等挑战，\citet{Sundermeyer} 提出一种全新的基于增强型降噪自编码器的三维方向估计模型，并在使用域随机化的三维模型的模拟视图上训练。增强型自编码器如图~\ref{c2_fig11}，原始输入图像首先通过数据增强，产生几何结构和颜色增强后的图像，作为自动编码器的输入，输出的目标是回复原始输入图像。这种增强型自动编码器可以使模型具备动态环境下恢复准确姿态的能力，优点是：不需要真实的有姿态标签的数据，可以通用于多重测试传感器；不需要学习从输入图像到物体姿态的显式映射，而是采用样本隐空间的姿态隐式表示。基于此的姿态估计在 T-LESS 数据集~\citep{hodan2017t}和 LineMOD 数据集~\citep{hinterstoisser2011multimodal}都取得了先进的性能。
+    \begin{figure*}[tbp]
+        \centering 
+        \includegraphics[width=1.0\textwidth]{img/c2/rel_b5.png}
+        \bicaption{增强型降噪自编码器的结构和训练过程。}{Augmented Autoencoder and its training process.}
+        \label{c2_fig10}
+    \end{figure*}
 
 \section{语义分割的不准确监督}
 不准确监督作为弱监督的另一种类型，面临着标签中有一部分错误的问题，即噪声标签问题。如何有效利用好噪声标签，来训练得到鲁棒的语义分割网络，是该任务的核心问题。近来已有一些工作在该任务上做了探索，并取得了一些进展。
 
-\citet{Zhu}
+\citet{Zhu2019PickandLearnAQ}
 
 
-\citet{Xue}
+\citet{Xue2020CascadedRL}
 
 
-\citet{CL}
+% \citet{CL}
 
 
-\citet{Tri-network}
+\citet{Zhang2020RobustMI}
  
 
 
