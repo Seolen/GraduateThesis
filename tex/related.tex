@@ -1,8 +1,8 @@
 \chapter{相关工作}
-本文研究弱监督语义分割中的不确切监督和不准确监督，在不确切监督中，我们的研究重点是如何结合形状先验，在不准确监督中，我们关注如何利用分割标签的结构先验。本章介绍涉及到的四类相关工作:语义分割的不确切监督、自学习方法、降噪自编码器和语义分割中的不准确监督。
+本文研究基于弱标签和噪声标签弱监督语义分割，在基于弱标签的语义分割中，我们的研究重点是如何结合形状先验，在基于噪声标签的语义分割中，我们关注如何利用分割标签的结构先验。本章介绍涉及到的四类相关工作:基于弱标签的语义分割、自学习方法、去噪自编码器和基于噪声标签的语义分割。
 
-\section{语义分割的不确切监督}
-为了降低标注成本，作为弱监督的一种类型，不确切监督采用粗粒度的标签，比如图像级别的标签（\cite{}），边界框（\cite{}）和涂鸦式标签（\cite{}）。该任务对提高数据标注的利用效率有重要意义。现有的方法大致可以分为两类，第一类采用迭代学习的框架，即先传播监督信息，生成伪标签，再用其训练模型。第二类方法应用基于正则项的训练框架，避免了生成伪标签的过程。接下来我们对这些工作进行详细介绍。
+\section{基于弱标签的语义分割}
+为了降低标注成本，基于弱标签的语义分割采用粗粒度的标签，比如图像级别的标签（\cite{wang2020self,fan2020learning,chang2020weakly}），边界框（\cite{papandreou2015weakly,khoreva2017simple,song2019box}）和涂鸦式标签（\cite{lin2016scribblesup,vernaza2017learning,tang2018regularized}）。该任务对提高数据标注的利用效率有重要意义。现有的方法大致可以分为两类，第一类采用迭代学习的框架，即先传播监督信息，生成伪标签，再用其训练模型。第二类方法应用基于正则项的训练框架，避免了生成伪标签的过程。接下来我们对这些工作进行详细介绍。
 
 
 \citet{papandreou2015weakly}探索了在边界框和图像级标签这样弱标注训练数据的学习算法。该工作为弱监督的语义图像分割模型训练开发了期望最大化方法，来解决模型训练不足的问题。首先在标签标注成本上，收集图像中每个类别周围的边界框标注会比逐像素标注快大约15倍\citep{lin2014microsoft}，收集图像级标签的标注成本更少。其次该文作者提出的期望最大化方法，在估计隐像素标签（被弱标签约束）和用随机梯度下降方法优化深度神经网络参数这两个阶段交替进行。
@@ -15,28 +15,28 @@
     \begin{figure*}[tbp]
         \centering 
         \includegraphics[width=1.0\textwidth]{img/c2/rel_a1.png}
-        \bicaption{使用图像级标签的 DeepLab 模型训练过程。}{DeepLab model training using image-level labels.}
+        \bicaption{使用图像级标签的 DeepLab 模型训练过程。图自~\citet{papandreou2015weakly}。}{DeepLab model training using image-level labels. Figure is from~\citet{papandreou2015weakly}.}
         \label{c2_fig1}
     \end{figure*}
 
     \begin{figure*}[tbp]
         \centering 
         \includegraphics[width=1.0\textwidth]{img/c2/rel_a2.png}
-        \bicaption{使用边界框标签的 DeepLab 模型训练过程。}{DeepLab model training from bounding boxes.}
+        \bicaption{使用边界框标签的 DeepLab 模型训练过程。图自~\citet{papandreou2015weakly}。}{DeepLab model training from bounding boxes. Figure is from~\citet{papandreou2015weakly}.}
         \label{c2_fig2}
     \end{figure*}
 
     \begin{figure*}[tbp]
         \centering 
         \includegraphics[width=1.0\textwidth]{img/c2/rel_a3.png}
-        \bicaption{普通的 CNN 学习与提出的 DeepCut 方法的对比，后者迭代地更新学习目标。}{Naive CNN learning versus the proposed DeepCut approach, iteratively updating the learning target classes for input patches.}
+        \bicaption{普通的 CNN 学习与提出的 DeepCut 方法的对比，后者迭代地更新学习目标。图自~\citet{rajchl2016deepcut}。}{Naive CNN learning versus the proposed DeepCut approach, iteratively updating the learning target classes for input patches. Figure is from~\citet{rajchl2016deepcut}.}
         \label{c2_fig3}
     \end{figure*}
 
     \begin{figure*}[tbp]
         \centering 
         \includegraphics[width=1.0\textwidth]{img/c2/rel_a4.png}
-        \bicaption{逐切片扩张的三维图像分割网络。}{The overview of slice-propagated 3D image segmentation network. }
+        \bicaption{逐切片扩张的三维图像分割网络。图自~\citet{cai2018accurate}。}{The overview of slice-propagated 3D image segmentation network. Figure is from~\citet{cai2018accurate}.}
         % 左侧图展示了训练图像的增加过程，每次邻近的图片连通生成的弱标签一起加入训练。右侧图展示了弱标签的传播过程，RECIST 标签通过 GrabCut 传播，未标注图像通过分割网络的预测传播得到标签。
         % Left: Each time adjacent slices are fed into the training process. Right: RECIST labels are initialized by GrabCut method, and CNN outputs are used to gradually generate extra training data for lesion segmentation.
         \label{c2_fig4}
@@ -46,7 +46,7 @@
     \begin{figure*}[tbp]
         \centering 
         \includegraphics[width=1.0\textwidth]{img/c2/rel_a5.png}
-        \bicaption{级联训练分割网络}{Workflow of the proposed cascaded method.}
+        \bicaption{级联训练分割网络。图自~\citet{ji2019scribble}。}{Workflow of the proposed cascaded method. Figure is from~\citet{ji2019scribble}.}
         \label{c2_fig5}
     \end{figure*}
 
@@ -69,7 +69,7 @@
     \begin{figure*}[tbp]
         \centering 
         \includegraphics[width=1.0\textwidth]{img/c2/rel_a6.png}
-        \bicaption{边界框标签的紧致性先验示意图：(a) 任一条竖直或水平的线段至少与一个前景像素相交。 (b) 更广泛地，宽度为 w 的线段至少与 w 个前景像素相交}{Illustration of the tightness prior: (a) any vertical (red) or horizontal (blue) line will cross at least one pixel of the camel. (b) This can be generalized, where segments of width w cross at least w pixels of camel.}
+        \bicaption{边界框标签的紧致性先验示意图：(a) 任一条竖直或水平的线段至少与一个前景像素相交。 (b) 更广泛地，宽度为 w 的线段至少与 w 个前景像素相交。图自~\citet{kervadec2020bounding}。}{Illustration of the tightness prior: (a) any vertical (red) or horizontal (blue) line will cross at least one pixel of the camel. (b) This can be generalized, where segments of width w cross at least w pixels of camel. Figure is from~\citet{kervadec2020bounding}.}
         \label{c2_fig6}
     \end{figure*}
 全局约束充分考虑利用弱标签的信息。紧致性先验如图~\ref{c2_fig6}所示，基于边界框紧致地包围着目标物体边界，在框内的任意一条水平或竖直线段都会至少与一个像素相交。这种先验约束，能够防止训练过程中过拟合到背景类别而前景预测失败的问题。全背景先验是指边界框外的区域都是背景类别，约束了前景的空间区域。前景区域尺寸先验，则是指目标物体在框内的面积比例有先验的下界与上界，利用尺寸先验可以约束分割结果的区域比例关系。这些全局先验通过对数障碍惩罚函数转换为标准的损失函数形式，可以直接使用随机梯度下降方法进行优化。
@@ -87,7 +87,7 @@
     \begin{figure*}[tbp]
         \centering 
         \includegraphics[width=1.0\textwidth]{img/c2/rel_b1.png}
-        \bicaption{从图像块学习到的稀疏编码基向量的例子}{Example sparse coding bases learned from image patches.}
+        \bicaption{从图像块学习到的稀疏编码基向量的例子。图自~\citet{raina2007self}。}{Example sparse coding bases learned from image patches. Figure is from~\citet{raina2007self}.}
         \label{c2_fig7}
     \end{figure*}
 
@@ -98,7 +98,7 @@
     \begin{figure*}[tbp]
         \centering 
         \includegraphics[width=1.0\textwidth]{img/c2/rel_b2.png}
-        \bicaption{自学习的低秩编码模型}{Diagram of the S-Low coding framework.}
+        \bicaption{自学习的低秩编码模型。图自~\citet{li2017self}。}{Diagram of the S-Low coding framework. Figure is from~\citet{li2017self}.}
         \label{c2_fig8}
     \end{figure*}
 
@@ -107,32 +107,32 @@
     \begin{figure*}[tbp]
         \centering 
         \includegraphics[width=1.0\textwidth]{img/c2/rel_b3.png}
-        \bicaption{原图像（第一行）、被遮挡的图像（第二行）以及它们在卷积网络的各层输出。}{The image (first row), its mask-out version (second row) and the outputs of different layers of the convolutional network.}
+        \bicaption{原图像（第一行）、被遮挡的图像（第二行）以及它们在卷积网络的各层输出。图自~\citet{bazzani2016self}。}{The image (first row), its mask-out version (second row) and the outputs of different layers of the convolutional network. Figure is from~\citet{bazzani2016self}.}
         \label{c2_fig9}
     \end{figure*}
 这篇文章提出的物体定位方法在准确率和召回率上都优于之前的方法，在 ILSVRC-2012 数据集上比之前最好的方法有大幅的提升。并且，自学习方法生成的标签用于训练定位模型，定位结果与真实标注的训练结果非常接近。
 
-\section{降噪自编码器}
-降噪自编码器目标是将输入图像编码到高维空间的一个隐向量，该向量对噪声具有不变性，作为原始图像的鲁棒表示。近来有一些工作应用降噪自编码器来产生更好的图像表征和对输入的抗干扰能力。
-\citet{vincent2010stacked} 探索构建一种基于堆叠的降噪自编码器的深度网络，来提高模型的泛化性与分类准确率。这些自编码器经过训练，具有对被噪声干扰的输入图像进行降噪的能力。这种网络表现出明显的低分类误差，这种以无监督方式学习的高层次语义表征也有助于提高后续 SVM 的性能。
-具体地，图~\ref{c2_fig10}是降噪自编码器的结构。原始输入样本被随机地做噪声增强，然后通过自动编码器映射到隐向量，再通过自动解码器重建输入样本，重建损失函数由重建样本与原始样本的误差衡量。这种训练方式使模型具有了降噪和恢复原始干净样本的能力。这项工作表明了无监督任务目标中，降噪标准对学习一个有用的高阶表征的指导意义。
+\section{去噪自编码器}
+去噪自编码器目标是将输入图像编码到高维空间的一个隐向量，该向量对噪声具有不变性，作为原始图像的鲁棒表示。近来有一些工作应用去噪自编码器来产生更好的图像表征和对输入的抗干扰能力。
+\citet{vincent2010stacked} 探索构建一种基于堆叠的去噪自编码器的深度网络，来提高模型的泛化性与分类准确率。这些自编码器经过训练，具有对被噪声干扰的输入图像进行去噪的能力。这种网络表现出明显的低分类误差，这种以无监督方式学习的高层次语义表征也有助于提高后续 SVM 的性能。
+具体地，图~\ref{c2_fig10}是去噪自编码器的结构。原始输入样本被随机地做噪声增强，然后通过自动编码器映射到隐向量，再通过自动解码器重建输入样本，重建损失函数由重建样本与原始样本的误差衡量。这种训练方式使模型具有了去噪和恢复原始干净样本的能力。这项工作表明了无监督任务目标中，去噪标准对学习一个有用的高阶表征的指导意义。
     \begin{figure*}[tbp]
         \centering 
         \includegraphics[width=1.0\textwidth]{img/c2/rel_b4.png}
-        \bicaption{降噪自编码器的结构。}{The denoising autoencoder architecture.}
+        \bicaption{去噪自编码器的结构。图自~\citet{vincent2010stacked}。}{The denoising autoencoder architecture. Figure is from~\citet{vincent2010stacked}.}
         \label{c2_fig10}
     \end{figure*}
 
-在三维姿态估计中，为了解决之前工作中对物体遮挡等动态变化、训练数据不足等挑战，\citet{Sundermeyer_2018_ECCV} 提出一种全新的基于增强型降噪自编码器的三维方向估计模型，并在使用域随机化的三维模型的模拟视图上训练。增强型自编码器如图~\ref{c2_fig11}，原始输入图像首先通过数据增强，产生几何结构和颜色增强后的图像，作为自动编码器的输入，输出的目标是回复原始输入图像。这种增强型自动编码器可以使模型具备动态环境下恢复准确姿态的能力，优点是：不需要真实的有姿态标签的数据，可以通用于多重测试传感器；不需要学习从输入图像到物体姿态的显式映射，而是采用样本隐空间的姿态隐式表示。基于此的姿态估计在 T-LESS 数据集~\citep{hodan2017t}和 LineMOD 数据集~\citep{hinterstoisser2011multimodal}都取得了先进的性能。
+在三维姿态估计中，为了解决之前工作中对物体遮挡等动态变化、训练数据不足等挑战，\citet{Sundermeyer_2018_ECCV} 提出一种全新的基于增强型去噪自编码器的三维方向估计模型，并在使用域随机化的三维模型的模拟视图上训练。增强型自编码器如图~\ref{c2_fig11}，原始输入图像首先通过数据增强，产生几何结构和颜色增强后的图像，作为自动编码器的输入，输出的目标是回复原始输入图像。这种增强型自动编码器可以使模型具备动态环境下恢复准确姿态的能力，优点是：不需要真实的有姿态标签的数据，可以通用于多重测试传感器；不需要学习从输入图像到物体姿态的显式映射，而是采用样本隐空间的姿态隐式表示。基于此的姿态估计在 T-LESS 数据集~\citep{hodan2017t}和 LineMOD 数据集~\citep{hinterstoisser2011multimodal}都取得了先进的性能。
     \begin{figure*}[tbp]
         \centering 
         \includegraphics[width=1.0\textwidth]{img/c2/rel_b5.png}
-        \bicaption{增强型降噪自编码器的结构和训练过程。}{Augmented Autoencoder and its training process.}
+        \bicaption{增强型去噪自编码器的结构和训练过程。图自~\citet{Sundermeyer_2018_ECCV}。}{Augmented Autoencoder and its training process. Figure is from~\citet{Sundermeyer_2018_ECCV}.}
         \label{c2_fig10}
     \end{figure*}
 
-\section{语义分割的不准确监督}
-不准确监督作为弱监督的另一种类型，面临着标签中有一部分错误的问题，即噪声标签问题。如何有效利用好噪声标签，来训练得到鲁棒的语义分割网络，是该任务的核心问题。近来已有一些工作在该任务上做了探索，并取得了一些进展。
+\section{基于噪声标签的语义分割}
+基于噪声标签的语义分割督作为弱监督的另一种类型，面临着标签中有一部分错误的问题，即噪声标签问题。如何有效利用好噪声标签，来训练得到鲁棒的语义分割网络，是该任务的核心问题。近来已有一些工作在该任务上做了探索，并取得了一些进展。
 
 对噪声标签的利用，就需要模型具备评估标签质量的能力，以决定使用或丢弃哪些标签。正确的标签可以让模型充分训练，而噪声标签会干扰训练结果，甚至由于深度神经网络的较强的表征能力，模型会记住这些标签错误。除了尽可能设计方法选出正确标签来使用，另一方面，利用训练过程中的信息，错误的标签也可以被纠正为正确的标签，带来进一步的性能提升。
 
@@ -140,7 +140,7 @@
     \begin{figure*}[tbp]
         \centering 
         \includegraphics[width=1.0\textwidth]{img/c2/rel_c1.png}
-        \bicaption{应用标签质量评估策略的端到端分割模型。}{The end-to-end architecture of the proposed label quality evaluation strategy.}
+        \bicaption{应用标签质量评估策略的端到端分割模型。图自~\citet{Zhu2019PickandLearnAQ}。}{The end-to-end architecture of the proposed label quality evaluation strategy. Figure is from~\citet{Zhu2019PickandLearnAQ}.}
         \label{c2_fig11}
     \end{figure*}
 
@@ -157,7 +157,7 @@
     \begin{figure*}[tbp]
         \centering 
         \includegraphics[width=1.0\textwidth]{img/c2/rel_c2.png}
-        \bicaption{级联式鲁棒学习框架。}{Illustration of the pipeline of our cascaded robust learning framework.}
+        \bicaption{级联式鲁棒学习框架。图自~\citet{Xue2020CascadedRL}。}{Illustration of the pipeline of our cascaded robust learning framework. Figure is from~\citet{Xue2020CascadedRL}.}
         \label{c2_fig12}
     \end{figure*}
 如图~\ref{c2_fig12}，作者沿用了之前的鲁棒学习思路：选用高置信度的样本来更新网络可以提高对噪声标签的鲁棒性。所提的框架由三个独立而相同结构的网络组成。在第一阶段的训练过程中，选择不确定性较小的高置信样本来更新每个网络，因为这些样本大概率是正确标签。具体地，每个网络用于训练的样本由其他两个网络获得，首先排除预测结果不一致的样本，然后在低不确定性样本中，选择小损失值的样本。
@@ -173,10 +173,10 @@
     \begin{figure*}[tbp]
         \centering 
         \includegraphics[width=1.0\textwidth]{img/c2/rel_c3.png}
-        \bicaption{三网络协作学习框架，采用了像素级的样本选择策略。}{The pipeline of our Tri-network framework, which adopts the pixel-level sample selection strategy.}
+        \bicaption{三网络协作学习框架，采用了像素级的样本选择策略。图自~\citet{Zhang2020RobustMI}。}{The pipeline of our Tri-network framework, which adopts the pixel-level sample selection strategy. Figure is from~\citet{Zhang2020RobustMI}.}
         \label{c2_fig13}
     \end{figure*}
-模型框架如图~\ref{c2_fig13}所示，关键思想是同时训练三个网络，其中每一对网络都引导第三个网络从噪声标签中挖掘有用和可靠的信息。给定一个小批量的输入数据，分别送入三个网络，得到三种不同的预测图和相应的像素损失图。接下来，每一对网络根据其输出经样本选择策略选出可靠的像素，用以引导第三个网络的训练更新。在测试阶段，测试数据被送入三个训练好的网络，并将三个网络的输出合并后作为最终预测。
+模型框架如图~\ref{c2_fig13}所示，关键思想是同时训练三个网络，其中每一对网络都引导第三个网络从噪声标签中挖掘有用和可靠的信息。给定一个小批量的输入数据，分别送入三个网络，得到三种不同的预测图和相应的像素损失图。接下来，每一对网络根据其输出经样本选择策略选出可靠的像素，用以引导第三个网络的训练更新。在测试阶段，测试数据被送入三个训练好的网络，并将三个网络的输出合并后作为最终预测。
 
 对于样本选择策略，该工作提出两种选择标准：基于共识的选择或基于差异的选择。这两个标准在处理有噪声标签的分割问题上都被证明是有效的。
 基于共识的选择，是对网络预测的共识。对于每个小批数据，一对网络产生两组像素级预测图，通过计算网络预测和噪声标签之间每个像素的损失，可以得到每个网络相应的置信度图（也是损失图）。一个设置好的损失值阈值，会将每个置信度图二元化，其中 1 表示高置信度（对应小的损失值），0 表示低置信度（对应大的损失值）。基于两个网络的二元置信图，可以计算得到共识图。共识图中有两种像素：两个网络共同的高置信度像素（被认为有干净标签），和共同的低置信度像素（被认为是有信息量的像素）。这两种像素被送入第三个网络训练，而其他不一致置信度的像素不予考虑。
@@ -184,5 +184,5 @@
 
 
 \section{本章小结}
-本章中我们对相关的工作进行了总结并分析，包括语义分割中的不确切监督、自学习方法、降噪自编码器、不准确监督等部分。为开展我们的研究工作奠定基础。
+本章中我们对相关的工作进行了总结并分析，包括基于弱标签的语义分割、自学习方法、去噪自编码器、基于噪声标签的语义分割等部分。为开展我们的研究工作奠定基础。
 
