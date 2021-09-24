@@ -37,12 +37,12 @@
 \section{模型设计}
 在本节我们详细介绍模型中的两个主要模块：语义分割网络和形状去噪网络。
 
-\textbf{语义分割网络} 语义分割网络 $\mathcal{F}_{SSN}$ 用来产生一个初始的粗分割掩膜，它将一个体积图像 $\mathbf{I}$ 作为输入，并输出一个概率图 $\mathbf{P}_s \in [0,1]^{H\times W\times D}$，表示每个像素属于前景的置信度。由 $\mathbf{P}_s$ 我们可以得出初始的前景分割掩膜 $\mathbf{M}_s$：$\mathbf{P}_s = \mathcal{F}_{SSN} (\mathbf{I}; \Theta), \mathbf{M}_s = \mathds{1} (\mathbf{P}_s > 0.5)$，其中 $\Theta$ 表示 $\mathcal{F}_{SSN}$ 的参数，而 $\mathds{1}(\cdot)$ 是一个指示函数。
+\textbf{语义分割网络} \quad 语义分割网络 $\mathcal{F}_{SSN}$ 用来产生一个初始的粗分割掩膜，它将一个体积图像 $\mathbf{I}$ 作为输入，并输出一个概率图 $\mathbf{P}_s \in [0,1]^{H\times W\times D}$，表示每个像素属于前景的置信度。由 $\mathbf{P}_s$ 我们可以得出初始的前景分割掩膜 $\mathbf{M}_s$：$\mathbf{P}_s = \mathcal{F}_{SSN} (\mathbf{I}; \Theta), \mathbf{M}_s = \mathds{1} (\mathbf{P}_s > 0.5)$，其中 $\Theta$ 表示 $\mathcal{F}_{SSN}$ 的参数，而 $\mathds{1}(\cdot)$ 是一个指示函数。
 我们用 nnU-Net~\citep{isensee2019automated} 来实例化我们的语义分割网络，它是医学图像语义分割的最先进而广泛的模型结构。
 % 可扩展：将 模型的具体设计可再讲一段，从附录 C 里取出。
 
 
-\textbf{形状去噪网络} 我们设计了一个形状去噪网络 $\mathcal{F}_{SDN}$ 来编码一个统一的形状先验，然后应用于初始的粗分割掩膜上进行形状改进。形状去噪网络的思想借鉴自去噪自编码器\citep{vincent2010stacked}和增强自编码器\citep{Sundermeyer_2018_ECCV}。去噪自编码器将图像编码为对噪声不敏感的隐向量，以表示原始的干净图像。增强自编码器产生输入图像中物体的方向编码，而对其他变换和环境条件具有不变性。与这些旨在为图像或物体方向提供代表性向量表征的方法不同，我们的目标是将输入的粗分割掩膜中恢复为干净而完整的形状。
+\textbf{形状去噪网络}  \quad 我们设计了一个形状去噪网络 $\mathcal{F}_{SDN}$ 来编码一个统一的形状先验，然后应用于初始的粗分割掩膜上进行形状改进。形状去噪网络的思想借鉴自去噪自编码器\citep{vincent2010stacked}和增强自编码器\citep{Sundermeyer_2018_ECCV}。去噪自编码器将图像编码为对噪声不敏感的隐向量，以表示原始的干净图像。增强自编码器产生输入图像中物体的方向编码，而对其他变换和环境条件具有不变性。与这些旨在为图像或物体方向提供代表性向量表征的方法不同，我们的目标是将输入的粗分割掩膜中恢复为干净而完整的形状。
 给定语义分割网络输出的初始掩膜 $\mathbf{M}_s$，我们的形状去噪网络隐式地施加了自学习的形状先验约束，并输出一个干净的形状改进的分割掩膜：$\mathbf{P}_d = \mathcal{F}_{SDN} (\mathbf{M}_s; \Omega), \mathbf{M}_d = \mathds{1} (\mathbf{P}_d > 0.5)$，其中 $\Omega$ 表示 $\mathcal{F}_{SDN}$ 的参数。由于我们的输出目标是最终的分割掩膜，而不是隐向量表示，我们的 $\mathcal{F}_{SDN}$ 采用了与 $\mathcal{F}_{SSN}$ 相同的 U-Net 结构，这种设计使得形状去噪网络在中间瓶颈层也保持较大的空间分辨率，并包含跳跃连接以捕捉更多的分割细节。
 
 \section{弱标注策略}
