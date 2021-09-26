@@ -2807,6 +2807,59 @@
       \field{dateera}{ce}
       \keyw{tang2018regularized}
     \endentry
+    \entry{trullo2019multiorgan}{article}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=64d817ab2d1782b6348a0a862e14fe0b}{%
+           family={Trullo},
+           familyi={T\bibinitperiod},
+           given={Roger},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=599d3ce9314b5b913de48bf871ebf0fb}{%
+           family={Petitjean},
+           familyi={P\bibinitperiod},
+           given={Caroline},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=02a60708b0f760b3c330d23f2081542e}{%
+           family={Dubray},
+           familyi={D\bibinitperiod},
+           given={Bernard},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cccfc66c807e2b0ae9a4f84e54ebd552}{%
+           family={Ruan},
+           familyi={R\bibinitperiod},
+           given={Su},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{64d817ab2d1782b6348a0a862e14fe0b}
+      \strng{fullhash}{39ad34a431cd76a029ac519e1926f75b}
+      \strng{bibnamehash}{b749d25cd9bfcb82113d9b261489999f}
+      \strng{authorbibnamehash}{b749d25cd9bfcb82113d9b261489999f}
+      \strng{authornamehash}{64d817ab2d1782b6348a0a862e14fe0b}
+      \strng{authorfullhash}{39ad34a431cd76a029ac519e1926f75b}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Medical Imaging}
+      \field{langid}{english}
+      \field{lansortorder}{4}
+      \field{title}{Multiorgan segmentation using distance-aware adversarial networks}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2019}
+      \field{dateera}{ce}
+      \keyw{trullo2019multiorgan}
+    \endentry
     \entry{vernaza2017learning}{inproceedings}{}
       \name{author}{2}{}{%
         {{un=0,uniquepart=base,hash=ca80edeb93a8db5c355c0d1b394d6df1}{%
