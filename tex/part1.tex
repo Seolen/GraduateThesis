@@ -115,7 +115,7 @@
     \mathcal{L}_{SDN} (\Omega) = \mathcal{L}_{ce} (\mathcal{F}_{SDN} (\mathbf{\hat{M}}^*; \Omega), \mathbf{M}^*)
 \end{align}
 
-\paragraph不确定性过滤}
+\paragraph{不确定性过滤}
 为了利用自学习的形状先验来进一步改进我们的模型并去除预测标签的噪声，我们设计一个不确定性过滤机制，从语义分割网络和形状去噪网络的概率预测中生成伪掩膜标签。具体地说，我们首先计算语义分割网络和形状去噪网络各自输出的分割掩膜，对二者取交集，然后根据语义分割输出中P s的每个像素的确定性，
 
 不确定性过滤 为了结合自学的形状先验来进一步改善我们的模型并去除噪音，我们用一个简单的不确定性过滤机制从SSN和SDN的预测中生成伪掩码。具体来说，我们首先计算SSN的分割面具和SDN的形状重构面具的交集，然后根据语义分割输出 $\mathbf{P}_s$ 中每个像素的置信度，应用基于不确定性的过滤。我们为前景（$\mathbf{Y}_{fg}$）和背景（$\mathbf{Y}_{bg}$）独立计算伪标签掩膜，
@@ -171,8 +171,80 @@ PROMISE12挑战赛\footnote{https://promise12.grand-challenge.org}\citep{Litjens
 
 \subsection{定量结果} \label{sec:res1}
 
+    \begin{table}[t!]
+        \bicaption{在气管测试集上的定量结果。表中数值的单位是 Dice [\%]。“--”表示对应的方法未能预测有意义的前景区域。}
+        {Quantitative results on the test splits of trachea. All presented numbers are in Dice [\%]. '--' under 30\% and 10\% denotes that BoxPrior failed in predicting any foreground.}
+        \centering    
+        % \resizebox{\textwidth}{!}{
+            \begin{tabular}{c|c|c c c c }
+                \toprule
+                \multirow{2}{*}{Method} & \multirow{2}{*}{Annotation} & \multicolumn{4}{c}{Trachea (Test)}  \\ 
+                &                        & 100\% & 50\% & 30\% & 10\%                             \\ \midrule
+                nnU-Net~\cite{isensee2019automated}     & Full label        & \multicolumn{4}{c}{89.74}          \\ \cmidrule{1-6}
+                BoxPrior\cite{kervadec2020bounding}    & Box  & 79.82  & 48.78  & -- & --  \\
+                KernelCut\cite{tang2018regularized}   & Scribble* & 84.39  & 83.44  & 82.77  & 67.78  \\
+                Ours & Scribble* & 84.61 & 83.88 & 83.37 & 81.82  \\
+                KernelCut\cite{tang2018regularized}   & Hybrid & 84.74 & 83.55	& 83.38	& 76.43             \\
+                Ours        & Hybrid    & \textbf{85.54} & \textbf{83.97} & \textbf{83.78} & \textbf{83.19}                           \\
+                \bottomrule
+            \end{tabular}
+        % }
+        
+        \label{tab:test_res1}
+    \end{table}
 
 
+    \begin{table}[t!]
+        \centering    
+        \bicaption{在左心房测试集上的定量结果。}
+        {Quantitative results on the test splits of left atrium.}
+        % \resizebox{\textwidth}{!}{
+            \begin{tabular}{c|c|c c c c }
+                \toprule
+                \multirow{2}{*}{Method} & \multirow{2}{*}{Annotation} & \multicolumn{4}{c}{Left Atrium (Test)}  \\ 
+                &                        & 100\% & 50\% & 30\% & 10\%                             \\ \midrule
+                nnU-Net~\cite{isensee2019automated}     & Full label        & \multicolumn{4}{c}{92.63}          \\ \cmidrule{1-6}
+                BoxPrior\cite{kervadec2020bounding}    & Box  & 83.93  & 83.51  & 81.86 & --    \\
+                KernelCut\cite{tang2018regularized}   & Scribble* & 78.97  & 76.71  & 74.42  & 64.93  \\
+                Ours & Scribble* & 85.61 & 84.11 & 83.26 & 83.11  \\
+                KernelCut\cite{tang2018regularized}   & Hybrid & 77.54	& 76.72	& 73.64	& 67.27             \\
+                Ours        & Hybrid    & \textbf{86.31} & \textbf{86.25} & \textbf{83.81} & \textbf{83.41}                           \\
+                \bottomrule
+            \end{tabular}
+        % }
+        \label{tab:test_res1}
+    \end{table}
+
+    \begin{table*}[t!]
+        \centering
+        \bicaption{在前列腺验证集上的定量结果。}
+        {Quantitative results on the validation split of PROMISE12.}
+        \label{tab:final_result}        
+        % \resizebox{0.7\textwidth}{!}{
+            \begin{tabular}{c|c|c c c c}
+                \toprule
+                %			\hline \hline
+                \multirow{2}{*}{Method} & \multirow{2}{*}{Annotation} & \multicolumn{4}{c}{Prostate (Val)} \\ %\cline{3-14}
+                %\cmidrule{3-14}
+                &                        & 100\% & 50\% & 30\% & 10\%\\ 
+                \midrule
+                nnU-Net~\cite{isensee2019automated}     & Full label        & \multicolumn{4}{c}{91.11} \\ \cmidrule{1-6}
+                
+                
+                % Ours        & Scribble          &           & 83.88         & 82.75         & 81.63         & 86.43     & 84.91           & 85.02         & 83.72 & 85.55         & 84.44         & 84.49          & 80.59           \\ 
+                
+                BoxPrior\cite{kervadec2020bounding}    & Box           & 83.82           & 80.60         & 76.93 & --    \\ 
+                KernelCut\cite{tang2018regularized}   & Scribble*          & 78.68           & 77.13         & 76.72 & 72.84 \\ 
+                Ours & Scribble* & 85.55 & 84.09 & 83.87 & 80.59 \\
+                KernelCut\cite{tang2018regularized}   & Hybrid          & 80.18           & 77.90         & 77.58 & 73.45 \\ 
+                Ours        & Hybrid            & \textbf{86.01}         & \textbf{85.71}         & \textbf{85.56}          & \textbf{80.89}           \\ 
+                % &               &           &           &           &           &           &           &           &           &           &           &           & \\ \hline
+                \bottomrule
+            \end{tabular}
+        % }
+    \end{table*}
+
+    % merge two results version
     % \begin{table}[t!]
     %     \centering    
     %     \resizebox{\textwidth}{!}{
