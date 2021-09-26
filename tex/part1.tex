@@ -119,10 +119,10 @@
 为了利用自学习的形状先验来进一步改进我们的模型并去除预测标签的噪声，我们设计一个不确定性过滤机制，从语义分割网络和形状去噪网络的概率预测中生成伪掩膜标签。具体地说，我们首先计算语义分割网络和形状去噪网络各自输出的分割掩膜，对二者取交集，然后根据语义分割输出中P s的每个像素的确定性，
 
 不确定性过滤 为了结合自学的形状先验来进一步改善我们的模型并去除噪音，我们用一个简单的不确定性过滤机制从SSN和SDN的预测中生成伪掩码。具体来说，我们首先计算SSN的分割面具和SDN的形状重构面具的交集，然后根据语义分割输出 $\mathbf{P}_s$ 中每个像素的置信度，应用基于不确定性的过滤。我们为前景（$\mathbf{Y}_{fg}$）和背景（$\mathbf{Y}_{bg}$）独立计算伪标签掩膜，
-\begin{align}
+\begin{align}   \label{eq1}
     \mathbf{Y}_{fg} &= \mathbf{M}_s * \mathbf{M}_d * \mathds{1} (\mathbf{P}_s > \sigma_{fg})
 \end{align}
-\begin{align}
+\begin{align}   \label{eq2}
     \mathbf{Y}_{bg} = (1-\mathbf{M}_s) * (1-\mathbf{M}_d) * \mathds{1} (\mathbf{P}_s < \sigma_{bg})
 \end{align}
 其中 $\sigma_{fg}$ 和 $\sigma_{bg}$ 是前背景各自的不确定性阈值。
@@ -134,7 +134,7 @@
 
 \paragraph{模型更新}
 得到生成的伪标签 $\mathbf{Y}_p$，我们通过最小化两项加权的交叉熵损失来更新模型参数 $\Theta$ ：分割输出概率 $\mathbf{P}_s$ 相对于原始的弱标签和生成的伪标签，
-\begin{align}
+\begin{align} \label{eq3}
     \mathcal{L} (\Theta) = \lambda_w \mathcal{L}_{wce} (\mathbf{P}_s, \mathbf{Y}) + \lambda_p \mathcal{L}_{wce} (\mathbf{P}_s, \mathbf{Y}_p)
 \end{align}
 其中 $\lambda_w$ 和 $\lambda_p$ 是各自相应的损失权重。
@@ -170,6 +170,17 @@ PROMISE12挑战赛\footnote{https://promise12.grand-challenge.org}\citep{Litjens
 
 
 \subsection{定量结果} \label{sec:res1}
+
+实验比较了基于所提出的混合式标签的我们的方法，和最近的使用涂鸦式标签或边界框标签的方法，这些标签的标注成本是相近的。
+为了呈现在不同程度的弱标签的表现，我们报告了前景弱标注比例从 100\% 到 10\% 的数值结果。为了公平比较，每种设定中不同的标注方法都使用同样的切片去标注。
+表~\ref{tab:test_res1}和表~\ref{tab:test_res2} 分别给出气管和左心房测试数据集的数值结果，表~\ref{tab:val_res} 给出前列腺验证数据集的结果。
+表中的 Scribble* 表示使用我们的混合式标签中的相同长轴作为前景标签，同时将我们松散边界框视为背景区域的涂鸦并作为背景标签，这是最接近我们所提的标注形式。不同的是，我们的混合式标签可以把边界框外的区域全视为背景标签，从而编码更丰富的形状上下文。我们的混合式标签和之前的涂鸦式标签或边界框标签在标注成本上是接近的。
+
+从三个数值表的结果看，我们的方法与混合式标签的结合一直优于 KernelCut\citet{tang2018regularized}和 BoxPrior\citet{kervadec2020bounding}。特别是在 10\% 弱标签设定下，我们的方法比基于涂鸦式标签的 KernelCut（之前表现最好的方法）在气管分割上高出 15.41\%，在左心房高出 18.48\%，以及在前列腺高出 8.05\%。而 BoxPrior 方法在 10\% 设定下，优于其正则损失项的极度不平衡而无法预测任何有意义的前景。
+我们的方法在不同的标签比例设定下是鲁棒的，其性能随标注比例只有轻微的下降，这验证了我们的模型利用特征相关性和自学习的形状先验来弥补标签减少的能力。
+此外，对不同形状的器官，KernelCut 在物体边缘不明显的任务（比如左心房）表现不佳，而 BoxPrior 不能处理像气管这样的细长且分叉连接的区域。不同于它们的局限性，我们的方法对以上任务都有鲁棒的表现。
+我们还报告了两个不同的组合：我们的模型+涂鸦式标签Scribble*，以及 KernelCut+混合式标签Hybrid。表中的数值表明，我们的方法在相同的标签下仍然优于 KernelCut，而混合式标签所包含的形状上下文信息可以进一步提高性能。
+
 
     \begin{table}[t!]
         \bicaption{在气管测试集上的定量结果。表中数值的单位是 Dice [\%]。“--”表示对应的方法未能预测有意义的前景区域。}
@@ -212,14 +223,14 @@ PROMISE12挑战赛\footnote{https://promise12.grand-challenge.org}\citep{Litjens
                 \bottomrule
             \end{tabular}
         % }
-        \label{tab:test_res1}
+        \label{tab:test_res2}
     \end{table}
 
     \begin{table*}[t!]
         \centering
         \bicaption{在前列腺验证集上的定量结果。}
         {Quantitative results on the validation split of PROMISE12.}
-        \label{tab:final_result}        
+        \label{tab:val_res}        
         % \resizebox{0.7\textwidth}{!}{
             \begin{tabular}{c|c|c c c c}
                 \toprule
@@ -268,12 +279,91 @@ PROMISE12挑战赛\footnote{https://promise12.grand-challenge.org}\citep{Litjens
 
 
 \subsection{定性结果} \label{sec:res2}
+我们在图~\ref{fig:vis}中直观地展示了在三个数据集上的定性结果，可视化结果表明与其他方法相比，我们的方法产生的分割掩膜有更干净完整的形状。
+这进一步验证了我们方法中对物体形状先验的关注，及其对分割结果的重要提升作用。
 
-
+    \begin{figure*}[tbp]
+        \centering 
+        \includegraphics[width=1.0\textwidth]{img/c3/final_vis3.png}
+        \bicaption{不同方法在三个数据集上的可视化结果，实验设定是 30\% 的弱标注比例。\textbf{从上到下}：气管、左心房和前列腺的分割结果可视化。}
+        {Qualitative results on three datasets with 30\% labeled slices. \textbf{Top to bottom}: trachea, left atrium, and prostate.}
+        \label{fig:vis}
+    \end{figure*}
 
 
 \subsection{消融实验} \label{sec:ablate}
 
+我们对所提出的弱监督分割框架做了详细的消融实验，包括表~\ref{tab:ablate1}在模型方法的实验，表~\ref{tab:ablate2}在弱标签的对比，以及表~\ref{tab:ablate_loss}在损失函数项的实验。接下来我们一一分析。
+
+\paragraph{形状先验}
+形状去噪网络使用自学习的形状先验进行形状改进。表~\ref{tab:ablate1}中的 CRF 代表用 DenseCRF 代替形状去噪网络，这使最终性能下降2\%-3\%。此外，DenseCRF 在三维体积图像上的后处理需要大约 3.50 秒，而我们的形状去噪网络的推理过程只需要 0.02 秒。更进一步，去除形状去噪网络，即去除公式~\ref{eq1}和公式~\ref{eq2} 中的 $\mathbf{M}_d$ 和 $(1-\mathbf{M}_d)$，会导致性能下降4\%-5\%。
+\paragraph{迭代学习}
+迭代学习把学习到的形状先验引入训练过程，以迭代改进我们的分割模型。如果没有迭代学习策略，模型的性能会下降约9\%。
+\paragraph{弱标签}
+我们将混合式标签与不同类型的涂鸦式标签和边界框标签进行比较。表~\ref{tab:ablate2}的结果表明，混合式标签的结果相比其他标签高出相当大的差距。这表明在更多的形状上下文下，混合式标签以相同的成本含有比其他标签更多的信息量。实验中的所有的涂鸦式标签与我们的混合标签的前景标签是一样的。
+表中的 Scribble* 表示将我们的宽松边界框作为背景涂鸦，Scribble（20-50）也采用松散边界框，但与紧致框有20-50像素的较大距离，Scribble（dilation）表示真实物体边缘向外膨胀产生的涂鸦。Scribble*直接来自于我们的混合式标签，与其他的 Scribble 变体相比，它取得了最好的结果，这表明在相同的标签成本下，它可能是信息最丰富的 Scribble 形式。
+对于紧致边界框标签，我们首先用 GrabCut 从标注的切片中生成前景和背景标签，并在我们的方法中使用它们作为模型学习的弱标签。
+\paragraph{损失函数}
+我们还研究了公式~\ref{eq3}中两个损失函数项对模型训练的影响。如表~\ref{tab:ablate_loss}所示。只使用伪标签进行迭代训练，呈现出明显优于基线10\%以上的表现。同时使用弱标签和伪标签，我们的方法可以进一步提高性能1\%-2\%。
+
+\begin{table}[t!]
+    \centering    
+    \bicaption{对模型组成部分的消融实验。实验在气管分割上进行，以每次消融一个变量的方式进行。}
+    {Ablation study on our model components. We conduct experiments in a drop-one-out manner.}
+    \begin{tabular}[t]{c c c|c c c}
+        \toprule
+        \multirow{2}{*}{Method} & \multirow{2}{*}{Shape prior} & \multirow{2}{*}{Iterative}  & \multicolumn{3}{c}{Trachea (Val)} \\ %\cline{4-6}
+        &                       &              & 50\% & 30\% & 10\%                 \\ \midrule
+        Ours      & $\checkmark$  & $\checkmark$      & \textbf{83.45} & \textbf{83.18} & \textbf{83.18} \\ %\\
+        %            \midrule
+        & CRF      & $\checkmark$      & 81.08 & 80.48 & 80.36 \\
+        & --            & $\checkmark$      & 78.97 & 78.59 & 78.11 \\ %\hline
+        & $\checkmark$  & --                & 74.91 & 74.80 & 74.17 \\
+        Baseline      & --            & --                          & 69.17 & 68.39 & 62.50 \\
+        \bottomrule 
+    \end{tabular}
+    \label{tab:ablate1}
+\end{table}
+
+\begin{table}[t!]
+    \centering    
+    \bicaption{对弱标注方法的对比研究。本文提出的混合式标签被用来和不同类型的涂鸦式标签以及边界框标签比较。}
+    {Ablation study on annotations. We compare our hybrid label to different types of scribbles and box.}
+    \begin{tabular}[t]{c c|c c c}
+        \toprule
+        \multirow{2}{*}{Method} & \multirow{2}{*}{Annotation} & \multicolumn{3}{c}{Trachea (Val)} \\ %\cline{4-6}
+        &                        & 50\% & 30\% & 10\%                 \\ \midrule            
+        Ours &   Hybrid  & \textbf{83.45} & \textbf{83.18} & \textbf{83.18} \\
+        %            \midrule
+        & Scribble*      & 83.05  & 82.75 & 81.63 \\
+        & Scribble (20-50)      & 78.91 & 75.80 & 75.45 \\ %\hline  \hline
+        & Scribble (dilation)      & 78.86 & 77.99 & 76.60 \\
+        & Box                   & 82.25 & 81.70 & 80.60 \\
+        % Baseline    & Scribble      & --            & --                          & 68.35 & 65.68 & 62.98 \\   \hline  \hline
+        %             & Box     & 82.95 & 81.84 & 79.59 \\ 
+        \bottomrule 
+    \end{tabular}
+    \label{tab:ablate2}
+\end{table}
+
+\begin{table}[t!]
+	\centering
+	\bicaption{对我们方法中的两项损失的消融实验。}
+    {Ablation study on two loss terms of our method.}
+	\label{tab:ablate_loss}        
+	% \resizebox{0.6\textwidth}{!}{
+		\begin{tabular}[t]{c c c|c c c}
+			\toprule
+			\multirow{2}{*}{Method} & \multirow{2}{*}{Weak label} & \multirow{2}{*}{Pseudo label}  & \multicolumn{3}{c}{Trachea (Val)} \\ %\cline{4-6}
+			&                       &              & 50\% & 30\% & 10\%                 \\ \midrule
+			Baseline  & $\checkmark$  & --      & 69.17 & 68.39 & 62.50 \\
+			& --      & $\checkmark$  & 81.89 & 81.57 & 81.14 \\
+			Ours      & $\checkmark$  & $\checkmark$      & \textbf{83.45} & \textbf{83.18} & \textbf{83.18} \\
+			\bottomrule 
+		\end{tabular}
+	% }
+\end{table}
 
 
-\section{实验}
+\section{本章小结}
+在本章中，我们为基于弱标签的弱监督语义分割任务开发了一种新的方法，并为弱监督的三维图像提出了一种稀疏的注释方案。我们提出一种自学习的形状去噪网络，它能够将分割后的掩模改进为更好的形状。并且我们通过在迭代更新模型中引入学到的形状先验带来更高的性能。此外，我们的稀疏标注方案在相同的标注成本下提供了比其他弱标签更多的信息。在三个具有不同形状属性的基准数据集的实验评估表明，我们所提的弱监督分割框架稳定地超过了其他利用不同弱标签的近期工作。
