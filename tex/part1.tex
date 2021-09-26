@@ -169,10 +169,30 @@ PROMISE12挑战赛\footnote{https://promise12.grand-challenge.org}\citep{Litjens
 在模型参数更新中，对于气管，我们将损失权重（$\lambda_w$, $\lambda_p$）设置为（1, 100），并以 1e-3 的学习率再训练我们的模型最多 300 次。对于前列腺，我们设定（$\lambda_w$, $\lambda_p$）为（0.1, 10），学习率为 1e-2。对于左心房，我们设定（$\lambda_w$, $\lambda_p$）为（0.1, 10），学习率为1e-3。
 
 
-
 \subsection{定量结果} \label{sec:res1}
 
 
+
+    % \begin{table}[t!]
+    %     \centering    
+    %     \resizebox{\textwidth}{!}{
+    %         \begin{tabular}{c|c|c c c c |c c c c}
+    %             \toprule
+    %             \multirow{2}{*}{Method} & \multirow{2}{*}{Annotation} & \multicolumn{4}{c|}{Trachea (Test)} & \multicolumn{4}{c}{Left Atrium (Test)}    \\ 
+    %             &                        & 100\% & 50\% & 30\% & 10\%  & 100\% & 50\% & 30\% & 10\%                                         \\ \midrule
+    %             nnU-Net~\cite{isensee2019automated}     & Full label        & \multicolumn{4}{c|}{89.74}           & \multicolumn{4}{c}{92.63} \\ \cmidrule{1-10}
+    %             BoxPrior\cite{kervadec2020bounding}    & Box  & 79.82  & 48.78  & -- & -- & 83.93  & 83.51  & 81.86 & --           \\
+    %             KernelCut\cite{tang2018regularized}   & Scribble* & 84.39  & 83.44  & 82.77  & 67.78 & 78.97  & 76.71  & 74.42  & 64.93            \\
+    %             Ours & Scribble* & 84.61 & 83.88 & 83.37 & 81.82 & 85.61 & 84.11 & 83.26 & 83.11 \\
+    %             KernelCut\cite{tang2018regularized}   & Hybrid & 84.74 & 83.55	& 83.38	& 76.43 & 77.54	& 76.72	& 73.64	& 67.27            \\
+    %             Ours        & Hybrid    & \textbf{85.54} & \textbf{83.97} & \textbf{83.78} & \textbf{83.19} & \textbf{86.31} & \textbf{86.25} & \textbf{83.81} & \textbf{83.41}                                \\
+    %             \bottomrule
+    %         \end{tabular}
+    %     }
+    %     \bicaption{在气管和左心房测试集上的定量结果。表中数值的单位是 Dice [\%]。“--”表示对应的方法未能预测有意义的前景区域。}
+    %     {Quantitative results on the test splits of trachea and left atrium. All presented numbers are in Dice [\%]. '--' under 10\% denotes that BoxPrior failed in predicting any foreground.}
+    %     \label{tab:test_result}
+    % \end{table}
 
 
 \subsection{定性结果} \label{sec:res2}
