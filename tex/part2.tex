@@ -1,25 +1,55 @@
 \chapter{基于噪声标签的语义分割}
+% 在这个工作中，我们为图像语义分割提出了一种新的鲁棒的学习策略，目标是利用图像的结构先验和像素标签的相关性。为此，我们采用了图像的超像素表示，并设计了一个迭代学习方案，这个方案结合了分割网络的噪声感知训练过程和噪声标签改进过程，两者都由超像素引导。这种结合使我们能够更好地利用分割标签的结构约束来进行模型学习，从而有效地减轻噪声标签的影响。我们注意到，虽然超像素在最近的工作中也被采用\citep{li2019supervised}，但他们只用来改进噪声标签，而忽略了训练期间噪声标签的影响。
 
-\section{章节概述}
+真实世界中，完全准确的图像标签是很少的，由于标注图像、标注者、标注环境等多种因素，噪声标签难以避免。
+本章中我们研究基于基于噪声标签的语义分割，这是弱监督语义分割的一个方向。为了充分利用标签中的有效信息而避免其中的噪声干扰，我们提出采用协同教学的模型框架，并随后设计了一个鲁棒的迭代学习策略。我们的方法利用了图像与标签的结构先验约束，并且结合了有噪声感知的训练过程和噪声标签改进过程。这种模型与学习策略的结合，有助于我们充分挖掘标签信息来实现高性能分割。
 
+本章分为以下四个部分。在第一节描述基于噪声标签的语义分割任务，第二节详细介绍我们的模型与训练方法，包括超像素表示、迭代学习策略的网络更新方法、训练停止标准和标签更新方法等。
+第三节为实验部分，包括实验数据集、实现细节、对比结果、消融实验等部分。最后是本章小节。
 
 \section{问题概述}
+与通常的语义分割任务不同的是，基于噪声标签的分割任务中，训练图像的标签有一部分是错误的。这些标签噪声会误导网络的正常训练，从而影响最终的分割性能。
+形式化地，给定一张图像 $\mb{X}$，其对应的噪声标签 $\mb{Y}=\{Y_i\}_{i=1}^M$，其中 $Y_i\in\{1,\cdots, C\}$，$C$ 是语义类别的数目，$M$ 是图像像素的数目。
+我们的目标是充分利用$\mb{Y}$中的正确信息来训练分割模型。
 
+为此，我们提出了一种语义分割的稳健学习策略，其目的是利用图像标签掩膜中的结构约束，并充分利用可靠的像素标签进行有效的学习。实现上，我们采用了基于超像素的数据表示方法，并设计了一种迭代学习方法，联合地优化网络参数和改进噪声标签。
 
 \section{方法}
+我们的模型及训练方法如图~\ref{fig:nss_overview}所示，我们使用两个并行的分割网络来进行协同教学，以避免单个网络的过拟合或不稳定学习。训练中，它以超像素表示作为指导，在迭代学习过程中联合地更新网络参数并改进噪声标签。每轮迭代会先选择小损失值（标签置信度高）的超像素来同时更新两个网络，达到停止标准后，根据网络预测结果来改进一部分超像素的标签。
+
+具体来说，给定分割网络框架和有噪声的训练数据，我们首先计算生成输入图像的超像素。基于这样的像素聚合分组，我们的迭代学习过程在有噪声感知的网络训练阶段和标签改进阶段之间交替进行，直到不再有增益效果。对网络更新阶段，我们采用多视图学习框架，联合训练分割网络的两个实例。对于标签改进阶段，我们使用两个训练好的网络的输出来估计超像素标签的可靠性，并更新不可靠的标签。下面我们首先在~\ref{sec:p2_1}节介绍我们的超级像素化程序，然后在~\ref{sec:p2_2}节介绍迭代学习的两个阶段。
+
+    \begin{figure*}[tbp]
+        \centering 
+        \includegraphics[width=1.0\textwidth]{img/c4/model_overview2.pdf}
+        \bicaption{我们的鲁棒学习方法。分割模型以超像素表示作为指导，在迭代学习过程中联合地更新网络参数并改进噪声标签。每轮迭代会先选择小损失值（标签置信度高）的超像素来同时更新两个网络，达到停止标准后，根据网络预测结果来改进一部分超像素的标签。}
+        {Overview of our robust training process. We use superpixels as our guidance in an iterative learning process which jointly updates network parameters and refines noisy labels. Each iteration selects superpixels with small losses to update two networks and relabels a set of superpixels based on network outputs.} %In inference mode, we use well-trained networks to predict the segmentation map.
+        \label{fig:nss_overview}
+    \end{figure*}
 
 
-\subsection{模型设计}
+\subsection{超像素表示} \label{sec:p2_1}
 
 
-\subsection{弱标注策略}
+\subsection{迭代学习} \label{sec:p2_2}
 
 
-\subsection{模型训练}
+\subsubsection{网络更新}
+
+
+\subsubsection{训练停止标准}
+
+
+\subsubsection{标签更新}
 
 
 
 \section{实验}
+
+
+\subsection{实验数据集}
+
+
 
 
 \subsection{实验设置}
@@ -27,17 +57,7 @@
 
 
 
-\subsection{实现细节}
-
-
-
-
-\subsection{定量结果}
-
-
-
-
-\subsection{定性结果}
+\subsection{ISIC 数据集}
 
 
 
@@ -46,4 +66,10 @@
 
 
 
-\section{实验}
+
+\subsection{JSRT 数据集}
+
+
+
+
+\section{本章小节}
