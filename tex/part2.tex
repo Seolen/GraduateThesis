@@ -140,23 +140,200 @@ JSRT数据集\citep{Shiraishi2000DevelopmentOA,Ginneken2006SegmentationOA}是一
 
 
 \subsection{实验设置}
+\paragraph{方法比较}
+实验上，我们对比了自己的方法和几种最近的方法，包括Co-teaching\citep{Han2018CoteachingRT}，Tri-network\citep{Zhang2020RobustMI} 和JoCoR\citep{Wei2020CombatingNL}，都应用了像素级的鲁棒学习。比较方法不包括像\citet{ mirikharaji2019learning, Zhang2020CharacterizingLE}这样的方法，因为它们依赖于一个干净的验证集。为了公平比较，我们用统一的网络主干和训练规则复现了这些方法。
 
+\paragraph{实现细节}
+我们采用 nnU-Net~\cite{Isensee2020nnUNetAS} 作为分割网络。参考之前的~\citet{Malach2017DecouplingT}，我们采用两个结构相同但初始化不同的网络。
+遵循~\citet{Han2018CoteachingRT}的设定，我们假设噪声率是已知的，初始选择率 $\mathcal{R}$ 设为（1-噪声率），$\gamma$ 值为 $1.1$。平衡因子 $\lambda$ 为0.65。
+我们用 SGD 优化器训练模型，学习率恒定为0.005。ISIC 数据集的批大小为 32 ，JSRT 数据集则为 8。我们在 TITAN Xp GPU 上用 PyTorch 实现代码框架。
 
-
+\paragraph{评估指标}
+测试时，我们使用标准的分割指标 Dice 相似系数（Dice coefficient）来评估预测掩膜的质量。
+训练中，当标签更新不再带来任何增益时，我们就停止迭代学习，也就是说，$G_l$ 不再呈现训练中的上升趋势。
+为了进行公平的比较，我们对所有的方法进行了最多 200 轮的训练，并报告了最后 10 轮的平均指标。
 
 \subsection{ISIC 数据集}
 
+表~\ref{tab:isic}总结报告了 ISIC 数据集的定量结果。在中等水平的噪声设定下 $(\alpha=0.3, \beta=0.5)$，我们实现了 84.00\% Dice，超过了之前最好的方法 1.35\% Dice。随着噪声的增加，基线（Baseline）的性能急剧下降，这表明标签噪声的影响非常大。其他方法在一定程度上缓解了这种影响，但其性能仍然明显下降。相比之下，我们的方法结果一直优于它们，并保持了较高的性能，验证了对不同的噪声水平的鲁棒性。值得注意的是，在极端的噪声设定下 ($\alpha=1.0, \beta=0.7$)，我们的方法仍达到了 81.39\%Dice，并且超过了JoCoR（7.09\%Dice）、Co-teaching（7.71\%Dice）和Tri-Network（11.38\%Dice）。\footnote{我们还观察到，在原始数据集上我们的方法也超过了基线的性能，达到 84.26\% Dice，这很可能是由于手动标签中有一定的噪声。}
+
+在图~\ref{fig:test_dice}中，我们绘出了测试 dice 相对训练轮次的曲线。多数方法首先达到了较高的性能，然后逐渐下降，这表明它们的训练受到了噪声标签的干扰。作为对比，我们的方法表现出稳定的高性能，这验证了训练方法的鲁棒性。在图~\ref{fig:isic_vis}中，我们还展示了一些 ISIC 数据集上可视化的定性比较。
+
+实验中还观察到，我们的方法对超像素化中的误差具有鲁棒性。在 ISIC 数据集上，我们在每幅图像上使用了 100 个超像素，其下分割误差相对较高（1.0），而我们的超像素选择过程基本能在噪声感知的学习中丢弃不准确的超像素。
+
+    \begin{table}[tbp]
+        \bicaption{在 ISIC 数据集上对基于噪声标签的分割方法的定量比较，评价指标是最后 10 轮的平均 Dice 系数[\%]。$\alpha$ 和 $\beta$ 分别控制噪声图像比例和噪声水平。}
+        {Quantitative comparisons of noisy-labeled segmentation methods on ISIC dataset, where the metric is Dice[\%] over the last 10 epochs. $\alpha$ and $\beta$ control the noise ratio and noise level, respectively. } %Results on all different noise settings show that our method outperforms the state-of-the-art methods consistently.
+        \label{tab:isic}
+        \centering
+        \resizebox{\textwidth}{!}{
+            % \renewcommand{\arraystretch}{0.8}
+            \begin{tabular}{P{3.0cm}|M{2.0cm}|M{2.3cm}|M{2.4cm}|M{2.2cm}|M{2.2cm}} %{c|c|c|c|c|c}%   % 之前默认2.0cm
+                \toprule %\cite{Han2018CoteachingRT}  \cite{Zhang2020RobustMI}  {Wei2020CombatingNL} 
+                & Baseline  & Co-teaching   & Tri-network   & JoCoR    & Ours \\ \midrule
+                Original data           & 82.49  & 82.72  & 82.96  & 83.64  & \textbf{84.26}   \\ \midrule
+                $\alpha=0.3, \beta=0.5$ & 80.75  & 81.44  & 81.50  & 82.65  & \textbf{84.00}  \\  \midrule
+                $\alpha=0.3, \beta=0.7$ & 79.46  & 81.47  & 80.73  & 81.58  & \textbf{83.34}      \\  \midrule
+                $\alpha=0.5, \beta=0.5$ & 78.95  & 81.22  & 80.94  & 82.41  & \textbf{83.90}      \\  \midrule
+                $\alpha=0.5, \beta=0.7$ & 75.44  & 80.06  & 80.24  & 81.06  & \textbf{83.19}      \\  \midrule
+                $\alpha=0.7, \beta=0.5$ & 76.61  & 79.61  & 79.55  & 80.55  & \textbf{83.83}      \\  \midrule
+                $\alpha=0.7, \beta=0.7$ & 71.51  & 78.50  & 76.61  & 79.05  & \textbf{83.12}      \\  \midrule
+                $\alpha=1.0, \beta=0.5$ & 71.13  & 76.69  & 75.61  & 78.43  & \textbf{82.23}      \\  \midrule
+                $\alpha=1.0, \beta=0.7$ & 63.71  & 73.68  & 70.01  & 74.30  & \textbf{81.39}      \\  
+                \bottomrule
+            \end{tabular}
+        }
+    \end{table}
+
+    % test dice curve
+    \begin{figure}[tbp]
+        \centering 
+        \includegraphics[width=0.8\textwidth]{img/c4/c_test_curve2.png}
+        \bicaption{四种不同的噪声设定下，测试 dice 相对训练轮数的变化曲线。}
+        {Curves of test dice vs. epoch on four different noise settings.} % Our method shows the best performance and great robustness.
+        \label{fig:test_dice}
+    \end{figure}
+
+    % isic vis
+    \begin{figure*}[tbp]
+        \centering 
+        \includegraphics[width=1.0\textwidth]{img/c4/sup_vis.pdf}
+        \bicaption{不同方法在 ISIC 数据集的定性比较。红色曲线和蓝色曲线分别表明真实标签和预测标签的区域。}
+        {Qualitative comparisons of different methods on ISIC dataset. Red and blue curves show the groundtruth and predicted masks, respectively.}
+        \label{fig:isic_vis}
+    \end{figure*}
 
 
 
 \subsection{消融实验}
+为了验证我们方法的各个组成部分的作用，我们对超像素表示、网络更新的选择方法、标签更新方法和训练停止标准分别作了消融实验。
 
+我们首先验证了超像素表示的作用，实验条件是噪声设定为 $(\alpha=0.7, \beta=0.7)$ 的ISIC 数据集，其结果见表~\ref{tab:ablate}。
+第1行是我们的方法，取得了83.12\% Dice。在第2行，我们用像素表示替换超像素表示，带来了1.97\% Dice 的性能下降。这证明了超像素表示法在基于噪声标签的学习中的优势。
+此外，为了分析选择模块和标签更新模块在迭代学习中的作用，我们在相同的设置下进行一一排除验证。从模型中移除选择模块，会导致3.80\% Dice 的下降（第三行），另一方面，移除标签更新模块会使性能下降2.56\% Dice（第4行）。很明显，这两个模块对于我们鲁棒的迭代学习策略十分重要。
 
+为了验证我们的自适应停止标准在迭代学习中的有效性，我们在表~\ref{tab:ablate_stop}中与几个固定停止策略进行了比较，实验设定与前述相同。结果表明，我们的停止标准带来了最好的性能，证明它有很强的能力来防止过拟合。
 
+    % ablation table
+    \begin{table}[t!]
+        \bicaption{对我们的模型组成的消融研究。实验设定是 $(\alpha=0.7, \beta=0.7$)。}
+        {Ablation study on our model components. Experiments on the setting $(\alpha=0.7, \beta=0.7)$.}
+        \label{tab:ablate}\small
+        \centering
+        % \resizebox{0.825\textwidth}{!}{
+            \setlength{\tabcolsep}{8pt}
+            % \renewcommand{\arraystretch}{0.9}
+            \begin{tabular}[t]{c|c|c|c|c}
+                \toprule
+                Method  & Superpixel    & Selection    & Label Refinement    & Dice[\%]  \\ \midrule
+                Ours    & $\checkmark$  & $\checkmark$  & $\checkmark$  &  \textbf{83.12} \\   
+                        & $\times$  & $\checkmark$  & $\checkmark$      &  81.15 \\                 
+                        & $\checkmark$  & $\times$  & $\checkmark$      &  79.32 \\
+                        & $\checkmark$  & $\checkmark$  & $\times$      &  80.56 \\
+                \bottomrule
+            \end{tabular}
+        % }
+    \end{table}
+
+    \begin{table}[t]
+        \centering
+        \bicaption{对迭代学习中的自适应停止标准的消融研究。我们的标准选择了第 26 轮。实验设定是 $(\alpha=0.7, \beta=0.7)$。}
+        {Ablation study on adaptive stopping criterion in iterative learning. Our criterion chooses epoch 26 here. Experiments on the setting $(\alpha=0.7, \beta=0.7)$.}
+        \label{tab:ablate_stop}
+        \setlength{\tabcolsep}{6pt}
+        % \resizebox{1.0\textwidth}{!}{
+            %\renewcommand{\arraystretch}{0.6}
+            \begin{tabular}[t]{c|c|c|c|c|c|c}
+                \toprule
+                Stopping at & our criterion     & epoch 10 & epoch 20 & epoch 30 & epoch 50 & epoch 100   \\ \midrule  %& epoch 20 
+                Dice [\%]        & \textbf{83.12}   & 81.58 & 82.38 & 80.78    & 80.75    & 80.78       \\          %  82.38
+                \bottomrule 
+            \end{tabular}
+        % }
+    \end{table}
 
 \subsection{JSRT 数据集}
 
+为了探索所提方法的泛化能力，我们还在 JSRT 数据集上进行了实验。图~\ref{fig:jsrt_curve}展示了三种类别的平均结果，详细数值见表~\ref{tab:jsrt}。
+我们的方法在所有类别上都稳定地优于其他方法。同时，随着噪声水平的增加，我们的方法有轻微的下降，表现出较强的鲁棒性。特别是在极端的噪声设置$(\alpha=0.7, \beta=0.7)$下，我们实现了平均 89.95\% dice，超过了JoCoR（83.73\%）、Tri-network（83.18\%）和Co-teaching（82.99\%）的表现。
+总之，上述结果验证了我们方法的高性能、强泛化性和强鲁棒性。
+
+我们还给出了在 JSRT 数据集的分割结果可视化，以形象地对比各种方法的效果。图~\ref{fig:jsrt_vis}的结果表明，我们对三类的预测分割结果更接近真实标注，有更准确的形状与边缘。
+
+    % test visualization
+    \begin{figure*}[tbh]
+        \centering 
+        \includegraphics[width=1.0\textwidth]{img/c4/c_jsrt_curve2.pdf}
+        \bicaption{JSRT 数据集上不同噪声设定下的三种类别的平均结果，低噪声水平对应 $\beta=0.5$ ，高噪声水平对应 $\beta=0.7$。}
+        {Average results on JSRT dataset with different noise settings: low noise level $\beta=0.5$ and high noise level $\beta=0.7$, respectively. } %Our method achieves the highest performance on all settings.
+        \label{fig:jsrt_curve}
+    \end{figure*}
+
+    % jsrt vis
+    \begin{figure*}[tbp]
+        \centering 
+        \includegraphics[width=1.0\textwidth]{img/c4/jsrt_vis.pdf}
+        \bicaption{不同方法在 JSRT 数据集的定性比较，三种目标类别分别是肺，心脏和锁骨。红色曲线和蓝色曲线分别表明真实标签和预测标签的区域。}
+        {Qualitative comparisons of different methods on JSRT dataset. Three target clases are lung, heart and clavicle, respectively. Red and blue curves show the groundtruth and predicted masks, respectively.}
+        \label{fig:jsrt_vis}
+    \end{figure*}
+
+    % Table: JSRT dataset
+    \begin{table}[thb]
+        \bicaption{JSRT 数据集上三种类别的数值结果。}
+        {Quantitative comparisons of three classes on JSRT dataset.}
+        \label{tab:jsrt}
+        \centering
+        \resizebox{1.0\textwidth}{!}
+        {
+            \renewcommand{\arraystretch}{0.7}
+            % \begin{tabular}{P{2.5cm}|M{2.0cm}|M{2.0cm}|M{2.0cm}|M{2.0cm}|M{2.0cm}} %c|c|c|c|c
+            \begin{tabular}{P{3.0cm}|M{3.0cm}|M{2.0cm}|M{2.0cm}|M{2.0cm}|M{2.0cm}} %c|c|c|c|c
+                \toprule
+                Noise settings & Method    & Lung & Heart & Clavicle & Average     \\ \midrule
+                Original data & Baseline & 97.64 & 94.04 & 90.89 & 94.19     \\ \midrule
+                \multirow{5}{*}{$\alpha=0.3, \beta=0.5$}
+                & Baseline  & 95.20  & 90.31  &87.12   & 90.88   \\ \cmidrule{2-6}
+                & Co-teaching  & 95.57  & 92.27  &87.18   & 91.67   \\ \cmidrule{2-6}
+                & Tri-network  & 96.20  & 92.59  &88.05   & 92.28   \\ \cmidrule{2-6}
+                & JoCoR  & 95.67 & 92.68  &87.35   & 91.90  \\ \cmidrule{2-6}
+                & Ours  & \textbf{96.87}  & \textbf{93.11}  &\textbf{88.77 }  &  \textbf{92.92}  \\ \midrule
+                \multirow{5}{*}{$\alpha=0.3, \beta=0.7$}
+                & Baseline  & 94.01  & 88.22  &83.29   & 88.51   \\ \cmidrule{2-6}
+                & Co-teaching  & 94.75  &90.12   &86.15   & 90.34   \\ \cmidrule{2-6}
+                & Tri-network  & 94.80  &90.90   &86.74   & 90.81   \\ \cmidrule{2-6}
+                & JoCoR  & 94.94  &90.92   &86.61   & 90.82   \\ \cmidrule{2-6}
+                & Ours  & \textbf{96.53}  &\textbf{92.52}   &\textbf{88.45}   &  \textbf{92.50}  \\ \midrule
+                \multirow{5}{*}{$\alpha=0.5, \beta=0.5$}
+                & Baseline  &89.72   &88.02   &84.75   & 87.50   \\ \cmidrule{2-6}
+                & Co-teaching  &91.93   &88.78   &86.99   & 89.23   \\ \cmidrule{2-6}
+                & Tri-network  & 93.09  &90.64   &87.32   & 90.35   \\ \cmidrule{2-6}
+                & JoCoR  & 92.74  &90.57    &86.80   & 90.04  \\ \cmidrule{2-6}
+                & Ours  &\textbf{96.24 }  &\textbf{92.27}   &\textbf{87.72}   &  \textbf{92.08}  \\ \midrule
+                \multirow{5}{*}{$\alpha=0.5, \beta=0.7$}
+                & Baseline  &87.46   &81.26   &82.96   & 83.89   \\ \cmidrule{2-6}
+                & Co-teaching  &89.70   &87.28   &85.24   & 87.41   \\ \cmidrule{2-6}
+                & Tri-network  &89.87   &88.16   &85.99   & 88.01   \\ \cmidrule{2-6}
+                & JoCoR  &91.27   &88.86   &85.94   & 88.69   \\ \cmidrule{2-6}
+                & Ours  &\textbf{95.87 }  &\textbf{91.76}   &\textbf{86.65}   &  \textbf{91.43}  \\ \midrule
+                \multirow{5}{*}{$\alpha=0.7, \beta=0.5$}
+                & Baseline  &83.71   &83.62   &83.06   & 83.46   \\ \cmidrule{2-6}
+                & Co-teaching  &86.45   & 86.21  &85.85  & 86.17   \\ \cmidrule{2-6}
+                & Tri-network  &87.75   & 87.46   &86.34   & 87.18   \\ \cmidrule{2-6}
+                & JoCoR  &89.22   &88.33   &85.32   & 87.62   \\ \cmidrule{2-6}
+                & Ours  &\textbf{94.93 }  &\textbf{91.49}   &\textbf{86.68}   &  \textbf{91.03}   \\ \midrule
+                \multirow{5}{*}{$\alpha=0.7, \beta=0.7$}
+                & Baseline  &79.82   &78.12   &77.09   & 78.34   \\ \cmidrule{2-6}
+                & Co-teaching  &84.71   &82.01   &82.24   & 82.99   \\ \cmidrule{2-6}
+                & Tri-network  &84.35   &82.48   &82.70   & 83.18   \\ \cmidrule{2-6}
+                & JoCoR  &85.94   &83.91   &81.33   & 83.73   \\ \cmidrule{2-6}
+                & Ours  &\textbf{94.59}   &\textbf{90.20}   &\textbf{85.07}   &  \textbf{89.95}  \\ 
+                \bottomrule
+            \end{tabular}
+        }
+    \end{table}
 
 
 
 \section{本章小节}
+在本章中，我们提出了一种医学图像分割的基于噪声标签的鲁棒学习策略。与之前的方法不同，我们利用结构性先验和像素间相关性来进行分割模型的学习，这极大地降低了标签噪声的影响。我们设计了一种基于超像素表示的迭代学习方案。在每次迭代中，我们使用选定的可靠的超像素子集联合训练两个深度神经网络，并重新标注不可靠的超像素子集。在两个具有模拟噪声的数据集上的评估表明，我们的学习策略在广泛的噪声环境下，实现了最先进的性能和鲁棒性。此外，我们注意到，在真实的标签错误中的分割学习是未来的一个重要研究课题，而建立一个具有真实标签噪声的基准数据集是关键步骤。

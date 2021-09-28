@@ -1,18 +1,18 @@
 [0] Config.pm:311> INFO - This is Biber 2.16
 [0] Config.pm:314> INFO - Logfile is 'shtthesis-user-guide.blg'
-[101] biber-darwin:340> INFO - === Tue Sep 28, 2021, 17:19:41
-[128] Biber.pm:415> INFO - Reading 'shtthesis-user-guide.bcf'
-[340] Biber.pm:952> INFO - Found 62 citekeys in bib section 0
-[389] Biber.pm:4340> INFO - Processing section 0
-[401] Biber.pm:4531> INFO - Looking for bibtex format file 'reference.bib' for section 0
-[405] bibtex.pm:1689> INFO - LaTeX decoding ...
-[500] bibtex.pm:1494> INFO - Found BibTeX data source 'reference.bib'
-[1576] Utils.pm:395> WARN - I didn't find a database entry for '2020bounding' (section 0)
-[1576] Utils.pm:395> WARN - I didn't find a database entry for 'Trullotrullo2019multiorgan' (section 0)
-[1577] Utils.pm:395> WARN - I didn't find a database entry for 'Litjens等人，2014' (section 0)
-[1774] UCollate.pm:68> INFO - Overriding locale 'zh__pinyin' defaults 'variable = shifted' with 'variable = non-ignorable'
-[1775] UCollate.pm:68> INFO - Overriding locale 'zh__pinyin' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[1775] Biber.pm:4168> INFO - Sorting list 'gb7714-2015/global//global/global' of type 'entry' with template 'gb7714-2015' and locale 'zh__pinyin'
-[1912] bbl.pm:654> INFO - Writing 'shtthesis-user-guide.bbl' with encoding 'UTF-8'
-[2031] bbl.pm:757> INFO - Output to shtthesis-user-guide.bbl
-[2031] Biber.pm:128> INFO - WARNINGS: 3
+[98] biber-darwin:340> INFO - === Tue Sep 28, 2021, 22:37:01
+[137] Biber.pm:415> INFO - Reading 'shtthesis-user-guide.bcf'
+[370] Biber.pm:952> INFO - Found 65 citekeys in bib section 0
+[423] Biber.pm:4340> INFO - Processing section 0
+[436] Biber.pm:4531> INFO - Looking for bibtex format file 'reference.bib' for section 0
+[441] bibtex.pm:1689> INFO - LaTeX decoding ...
+[541] bibtex.pm:1494> INFO - Found BibTeX data source 'reference.bib'
+[1471] Utils.pm:395> WARN - I didn't find a database entry for '2020bounding' (section 0)
+[1471] Utils.pm:395> WARN - I didn't find a database entry for 'Trullotrullo2019multiorgan' (section 0)
+[1472] Utils.pm:395> WARN - I didn't find a database entry for 'Litjens等人，2014' (section 0)
+[1682] UCollate.pm:68> INFO - Overriding locale 'zh__pinyin' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1683] UCollate.pm:68> INFO - Overriding locale 'zh__pinyin' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1683] Biber.pm:4168> INFO - Sorting list 'gb7714-2015/global//global/global' of type 'entry' with template 'gb7714-2015' and locale 'zh__pinyin'
+[1935] bbl.pm:654> INFO - Writing 'shtthesis-user-guide.bbl' with encoding 'UTF-8'
+[2075] bbl.pm:757> INFO - Output to shtthesis-user-guide.bbl
+[2075] Biber.pm:128> INFO - WARNINGS: 3

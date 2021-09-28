@@ -1100,8 +1100,10 @@
       \strng{authorbibnamehash}{2e3b8d1020e302430aa80f85820bee96}
       \strng{authornamehash}{fd2491b31394637fa717b80729281018}
       \strng{authorfullhash}{fa3cc7e287370c0a930d8b93529236af}
+      \field{extraname}{1}
       \field{sortinit}{4}
       \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{extradate}{1}
       \field{extradatescope}{labelyear}
       \field{labeldatesource}{}
       \field{labelnamesource}{author}
@@ -1116,6 +1118,67 @@
       \field{year}{2020}
       \field{dateera}{ce}
       \keyw{isensee2019automated}
+    \endentry
+    \entry{Isensee2020nnUNetAS}{article}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=fd2491b31394637fa717b80729281018}{%
+           family={Isensee},
+           familyi={I\bibinitperiod},
+           given={Fabian},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=63350393ee74dce2bfeda809cbb2f459}{%
+           family={Jaeger},
+           familyi={J\bibinitperiod},
+           given={Paul\bibnamedelima F.},
+           giveni={P\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c8db325f01e156e511c9a87a5e890d22}{%
+           family={Kohl},
+           familyi={K\bibinitperiod},
+           given={Simon\bibnamedelimb A.\bibnamedelimi A.},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=42790f1a6b69337d3c707565e1b20698}{%
+           family={Petersen},
+           familyi={P\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=114f1f4d61f0bb02e9a8b368c52702bc}{%
+           family={Maier-Hein},
+           familyi={M\bibinithyphendelim H\bibinitperiod},
+           given={Klaus},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{fd2491b31394637fa717b80729281018}
+      \strng{fullhash}{fa3cc7e287370c0a930d8b93529236af}
+      \strng{bibnamehash}{2e3b8d1020e302430aa80f85820bee96}
+      \strng{authorbibnamehash}{2e3b8d1020e302430aa80f85820bee96}
+      \strng{authornamehash}{fd2491b31394637fa717b80729281018}
+      \strng{authorfullhash}{fa3cc7e287370c0a930d8b93529236af}
+      \field{extraname}{2}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{extradate}{2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature methods}
+      \field{langid}{english}
+      \field{lansortorder}{4}
+      \field{title}{nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation.}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \keyw{Isensee2020nnUNetAS}
     \endentry
     \entry{ji2019scribble}{inproceedings}{}
       \name{author}{4}{}{%
@@ -2365,6 +2428,94 @@
       \field{pages}{3431\bibrangedash 3440}
       \range{pages}{10}
       \keyw{long2015fully}
+    \endentry
+    \entry{Malach2017DecouplingT}{inproceedings}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=0fda776383552be7cdb7714e4e2c0512}{%
+           family={Malach},
+           familyi={M\bibinitperiod},
+           given={Eran},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4c9818c6db8e9642391aa80d5593c021}{%
+           family={Shalev-Shwartz},
+           familyi={S\bibinithyphendelim S\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{0fda776383552be7cdb7714e4e2c0512}
+      \strng{fullhash}{f6cd7dbbe688a4c1b4aaf4a1eb0b29ce}
+      \strng{bibnamehash}{f6cd7dbbe688a4c1b4aaf4a1eb0b29ce}
+      \strng{authorbibnamehash}{f6cd7dbbe688a4c1b4aaf4a1eb0b29ce}
+      \strng{authornamehash}{0fda776383552be7cdb7714e4e2c0512}
+      \strng{authorfullhash}{f6cd7dbbe688a4c1b4aaf4a1eb0b29ce}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{NIPS}
+      \field{langid}{english}
+      \field{lansortorder}{4}
+      \field{title}{Decoupling "when to update" from "how to update"}
+      \field{usera}{C}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2017}
+      \field{dateera}{ce}
+      \keyw{Malach2017DecouplingT}
+    \endentry
+    \entry{mirikharaji2019learning}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=3c1d44cd44cefaf2a665eeeab9cc30f2}{%
+           family={Mirikharaji},
+           familyi={M\bibinitperiod},
+           given={Zahra},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=14d0ed7b94bb0e63cdacf9bd8a277a69}{%
+           family={Yan},
+           familyi={Y\bibinitperiod},
+           given={Yiqi},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=061eb4eb95e9947e4010093d17626dd1}{%
+           family={Hamarneh},
+           familyi={H\bibinitperiod},
+           given={Ghassan},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{3c1d44cd44cefaf2a665eeeab9cc30f2}
+      \strng{fullhash}{66606460ccf8443c967aa4d69793fd95}
+      \strng{bibnamehash}{66606460ccf8443c967aa4d69793fd95}
+      \strng{authorbibnamehash}{66606460ccf8443c967aa4d69793fd95}
+      \strng{authornamehash}{3c1d44cd44cefaf2a665eeeab9cc30f2}
+      \strng{authorfullhash}{66606460ccf8443c967aa4d69793fd95}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ArXiv}
+      \field{langid}{english}
+      \field{lansortorder}{4}
+      \field{title}{Learning to Segment Skin Lesions from Noisy Annotations}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2019}
+      \field{dateera}{ce}
+      \keyw{mirikharaji2019learning}
     \endentry
     \entry{papandreou2015weakly}{inproceedings}{}
       \name{author}{4}{}{%
