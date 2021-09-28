@@ -19,6 +19,108 @@
 
 \refsection{0}
   \datalist[entry]{gb7714-2015/global//global/global}
+    \entry{Achanta2012SLICSC}{article}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=ddac184a4ca8401a61a6f7b3cce6d0f1}{%
+           family={Achanta},
+           familyi={A\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=da65665d9cd1f84285793277817b4f2d}{%
+           family={Shaji},
+           familyi={S\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9232ccab869a1e28b236a776037240ea}{%
+           family={Smith},
+           familyi={S\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6dd9b13132f891fb6244c899b0f68186}{%
+           family={Lucchi},
+           familyi={L\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a19011c379529b89e46e2d420a72fb97}{%
+           family={Fua},
+           familyi={F\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0a976883fb72e293423f09bc741c8135}{%
+           family={Süsstrunk},
+           familyi={S\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{ddac184a4ca8401a61a6f7b3cce6d0f1}
+      \strng{fullhash}{e66357b0a43da5bda856a27e7f1d128d}
+      \strng{bibnamehash}{b2e16284cbccabbe68f8ef353d685144}
+      \strng{authorbibnamehash}{b2e16284cbccabbe68f8ef353d685144}
+      \strng{authornamehash}{ddac184a4ca8401a61a6f7b3cce6d0f1}
+      \strng{authorfullhash}{e66357b0a43da5bda856a27e7f1d128d}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Pattern Analysis and Machine Intelligence}
+      \field{langid}{english}
+      \field{lansortorder}{4}
+      \field{title}{SLIC Superpixels Compared to State-of-the-Art Superpixel Methods}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2012}
+      \field{dateera}{ce}
+      \keyw{Achanta2012SLICSC}
+    \endentry
+    \entry{arpit2017closer}{inproceedings}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=0f0c297dd56ddda3c4590124b80d0472}{%
+           family={Arpit},
+           familyi={A\bibinitperiod},
+           given={Devansh},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{0f0c297dd56ddda3c4590124b80d0472}
+      \strng{fullhash}{0e6427ce0c801277ccf7bc2d00582f0c}
+      \strng{bibnamehash}{0f0c297dd56ddda3c4590124b80d0472}
+      \strng{authorbibnamehash}{0f0c297dd56ddda3c4590124b80d0472}
+      \strng{authornamehash}{0f0c297dd56ddda3c4590124b80d0472}
+      \strng{authorfullhash}{0e6427ce0c801277ccf7bc2d00582f0c}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{ICML}
+      \field{langid}{english}
+      \field{lansortorder}{4}
+      \field{title}{A closer look at memorization in deep networks}
+      \field{usera}{C}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2017}
+      \field{dateera}{ce}
+      \keyw{arpit2017closer}
+    \endentry
     \entry{bazzani2016self}{inproceedings}{}
       \name{author}{4}{}{%
         {{un=0,uniquepart=base,hash=a5aa68f5124b30a87c646a09d8e94fef}{%
@@ -455,6 +557,65 @@
       \field{pages}{S35\bibrangedash S40}
       \range{pages}{-1}
       \keyw{damodaram2012foetal}
+    \endentry
+    \entry{daoud2019automatic}{article}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=7687f74656a0395ef348118b19b842d8}{%
+           family={Daoud},
+           familyi={D\bibinitperiod},
+           given={Mohammad\bibnamedelima I},
+           giveni={M\bibinitperiod\bibinitdelim I\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ce416dcfe7facd09a5c1a961da58abc5}{%
+           family={Atallah},
+           familyi={A\bibinitperiod},
+           given={Ayman\bibnamedelima A},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c31882b0fd1c05d57d7e844b234a7b01}{%
+           family={Awwad},
+           familyi={A\bibinitperiod},
+           given={Falah},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c5964a8d6b0abac70af54348db481dea}{%
+           family={Al-Najjar},
+           familyi={A\bibinithyphendelim N\bibinitperiod},
+           given={Mahasen},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c2eeb092ab92ae3c5d136a592b2fe4bf}{%
+           family={Alazrai},
+           familyi={A\bibinitperiod},
+           given={Rami},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{7687f74656a0395ef348118b19b842d8}
+      \strng{fullhash}{bf906119a8901c0d642e328af3fc638d}
+      \strng{bibnamehash}{7e2807723f4ce75232278bb052d4f865}
+      \strng{authorbibnamehash}{7e2807723f4ce75232278bb052d4f865}
+      \strng{authornamehash}{7687f74656a0395ef348118b19b842d8}
+      \strng{authorfullhash}{bf906119a8901c0d642e328af3fc638d}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Expert Systems with Applications}
+      \field{langid}{english}
+      \field{lansortorder}{4}
+      \field{title}{Automatic superpixel-based segmentation method for breast ultrasound images}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2019}
+      \field{dateera}{ce}
+      \keyw{daoud2019automatic}
     \endentry
     \entry{fan2020learning}{inproceedings}{}
       \name{author}{4}{}{%
@@ -1008,6 +1169,65 @@
       \field{year}{2019}
       \field{dateera}{ce}
       \keyw{ji2019scribble}
+    \endentry
+    \entry{jiang2018mentornet}{article}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=713bbc1f5612133ee6d357a801c9d843}{%
+           family={Jiang},
+           familyi={J\bibinitperiod},
+           given={Lu},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=92bcf64f6a434d65d69d4718e65a964b}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={Zhengyuan},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=909cc514625b20b174a78f5dcd8e558a}{%
+           family={Leung},
+           familyi={L\bibinitperiod},
+           given={Thomas},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2afdae52015b97674d81efea449edce2}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Li-Jia},
+           giveni={L\bibinithyphendelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cd00ce5bc45f687c432e52e0fa1a7aa6}{%
+           family={Fei-Fei},
+           familyi={F\bibinithyphendelim F\bibinitperiod},
+           given={Li},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{713bbc1f5612133ee6d357a801c9d843}
+      \strng{fullhash}{934511ecd1003d070b33e1010d3deced}
+      \strng{bibnamehash}{f07d421b01162b0a47b65d7066c59a68}
+      \strng{authorbibnamehash}{f07d421b01162b0a47b65d7066c59a68}
+      \strng{authornamehash}{713bbc1f5612133ee6d357a801c9d843}
+      \strng{authorfullhash}{934511ecd1003d070b33e1010d3deced}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ArXiv}
+      \field{langid}{english}
+      \field{lansortorder}{4}
+      \field{title}{MentorNet: Learning Data-Driven Curriculum for Very Deep Neural Networks on Corrupted Labels}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2018}
+      \field{dateera}{ce}
+      \keyw{jiang2018mentornet}
     \endentry
     \entry{jie2017deep}{inproceedings}{}
       \name{author}{5}{}{%
@@ -2199,6 +2419,83 @@
       \field{dateera}{ce}
       \keyw{papandreou2015weakly}
     \endentry
+    \entry{qin2018superpixel}{article}{}
+      \name{author}{8}{}{%
+        {{un=0,uniquepart=base,hash=1701067ebe4ae669342f8f31f04f6da2}{%
+           family={Qin},
+           familyi={Q\bibinitperiod},
+           given={Wenjian},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9cecf65b3c7f3407db3d54a3f9966210}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Jia},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bedb9f8d62315a3792d695b0c99fcd38}{%
+           family={Han},
+           familyi={H\bibinitperiod},
+           given={Fei},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ce0362c5846a7cae040cd4ac963ab99f}{%
+           family={Yuan},
+           familyi={Y\bibinitperiod},
+           given={Yixuan},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=16e27adac1b31563e17c86920f0c910e}{%
+           family={Zhao},
+           familyi={Z\bibinitperiod},
+           given={Wei},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b94433f87a7cbc1269167a7a76ed0fbc}{%
+           family={Ibragimov},
+           familyi={I\bibinitperiod},
+           given={Bulat},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c1ee1a37312357ee033f9fb93f87acbd}{%
+           family={Gu},
+           familyi={G\bibinitperiod},
+           given={Jia},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e0b7e525a0d93bb4b5b20e01c39282b6}{%
+           family={Xing},
+           familyi={X\bibinitperiod},
+           given={Lei},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{1701067ebe4ae669342f8f31f04f6da2}
+      \strng{fullhash}{7ffe15297c753fd3635f5d9d1fa884da}
+      \strng{bibnamehash}{62fba0c6f1e4787bd3ad813265cf738a}
+      \strng{authorbibnamehash}{62fba0c6f1e4787bd3ad813265cf738a}
+      \strng{authornamehash}{1701067ebe4ae669342f8f31f04f6da2}
+      \strng{authorfullhash}{7ffe15297c753fd3635f5d9d1fa884da}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Physics in Medicine \& Biology}
+      \field{langid}{english}
+      \field{lansortorder}{4}
+      \field{title}{Superpixel-based and boundary-sensitive convolutional neural network for automated liver segmentation}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2018}
+      \field{dateera}{ce}
+      \keyw{qin2018superpixel}
+    \endentry
     \entry{raina2007self}{inproceedings}{}
       \name{author}{5}{}{%
         {{un=0,uniquepart=base,hash=909d780ed79692a13cd6287248e7ad8c}{%
@@ -2348,6 +2645,59 @@
       \field{year}{2016}
       \field{dateera}{ce}
       \keyw{rajchl2016deepcut}
+    \endentry
+    \entry{ren2018learning}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=5b971b9b36c941b019dfbb5fb1bb3274}{%
+           family={Ren},
+           familyi={R\bibinitperiod},
+           given={Mengye},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e4e35faf04f6962221700470bb04e389}{%
+           family={Zeng},
+           familyi={Z\bibinitperiod},
+           given={Wenyuan},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=68d4747f396b8c8dd2209ca3a8ea466a}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Bin},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bc58c1e920023b071a4d0695299cf804}{%
+           family={Urtasun},
+           familyi={U\bibinitperiod},
+           given={Raquel},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{5b971b9b36c941b019dfbb5fb1bb3274}
+      \strng{fullhash}{edbdba4f1b7c13762292d82f06c38b3a}
+      \strng{bibnamehash}{e1182480db337aa05943144d36eb7939}
+      \strng{authorbibnamehash}{e1182480db337aa05943144d36eb7939}
+      \strng{authornamehash}{5b971b9b36c941b019dfbb5fb1bb3274}
+      \strng{authorfullhash}{edbdba4f1b7c13762292d82f06c38b3a}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{ICML}
+      \field{langid}{english}
+      \field{lansortorder}{4}
+      \field{title}{Learning to reweight examples for robust deep learning}
+      \field{usera}{C}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2018}
+      \field{dateera}{ce}
+      \keyw{ren2018learning}
     \endentry
     \entry{ronneberger2015u}{inproceedings}{}
       \name{author}{3}{}{%
@@ -2806,6 +3156,59 @@
       \field{year}{2018}
       \field{dateera}{ce}
       \keyw{tang2018regularized}
+    \endentry
+    \entry{tian2015superpixel}{article}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=a59f076e03a5bbb14e196d87deead5cc}{%
+           family={Tian},
+           familyi={T\bibinitperiod},
+           given={Zhiqiang},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3904560663073be19b2fc70978a517e2}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Lizhi},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6598694f0a66086e8769621a425310cc}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Zhenfeng},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1c455fd38beb0c9aab9c175ff3a29be5}{%
+           family={Fei},
+           familyi={F\bibinitperiod},
+           given={Baowei},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{a59f076e03a5bbb14e196d87deead5cc}
+      \strng{fullhash}{388c47e7b1904c7787dce82bf4419de6}
+      \strng{bibnamehash}{7dec389b335e0cd1feb7c6404e79cc0c}
+      \strng{authorbibnamehash}{7dec389b335e0cd1feb7c6404e79cc0c}
+      \strng{authornamehash}{a59f076e03a5bbb14e196d87deead5cc}
+      \strng{authorfullhash}{388c47e7b1904c7787dce82bf4419de6}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE transactions on medical imaging}
+      \field{langid}{english}
+      \field{lansortorder}{4}
+      \field{title}{Superpixel-based segmentation for 3D prostate MR images}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2015}
+      \field{dateera}{ce}
+      \keyw{tian2015superpixel}
     \endentry
     \entry{trullo2019multiorgan}{article}{}
       \name{author}{4}{}{%
