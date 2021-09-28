@@ -116,10 +116,27 @@
 
 \section{实验}
 
+我们在两个公开数据集上验证了所提出的方法，ISIC\citep{Gutman2018SkinLA} 和JSRT~\citep{Shiraishi2000DevelopmentOA,Ginneken2006SegmentationOA}，这两个数据集由两种不同模态的图像组成。由于没有真实标签噪声的公开基准，我们参考之前的工作，使用模拟的标签噪声。
+对每个数据集，我们都与最近的工作进行比较。我们首先在 ISIC 数据集的基准上评估我们的方法，同时分析了模型各个部分的有效性。然后，我们的方法还应用于JSRT数据集的三个目标类别，以验证其泛化性能。
 
 \subsection{实验数据集}
+\paragraph{ISIC 数据集}
+ISIC 2017数据集\citep{Gutman2018SkinLA}是一个公开的大规模皮肤镜图像数据集，从多个地点使用的各种设备中收集得到。该数据集包含 2000 张训练图像和 600 张测试图像，并有相应的分割掩膜。我们将所有图像大小调整为 128$\times$128 的分辨率。
 
+\paragraph{JSRT 数据集}
+JSRT数据集\citep{Shiraishi2000DevelopmentOA,Ginneken2006SegmentationOA}是一个公共的胸部X射线数据集，包含三种类别的标签：肺、心脏和锁骨。总共有 247 张胸部 X 光片，统一分辨率为2048$\times$2048。我们把它们分成 197 张图片的训练集和 50 张图片的测试集，并调整大小为256$\times$256。\footnote{在胸部 X 射线图像中，锁骨区域较小。为了便于细化分割并减少计算时间，我们通过对训练集的统计来裁剪出包含锁骨的区域。}
 
+\paragraph{标签噪声模式}
+为了模拟真实的噪声标签，我们从训练数据中随机选择一个比例 $\alpha$ 的图像样本来应用形态学操作\citep{Zhu2019PickandLearnAQ, Zhang2020CharacterizingLE,Zhang2020RobustMI,Xue2020CascadedRL} 或仿射变换，噪声水平由 $\beta$ 控制。
+形态学操作包括标签的膨胀或腐蚀。对于放射变换，我们使用旋转和平移的组合来模拟真实世界的其他噪声模式。
+与之前的工作不同，在控制噪声水平 $\beta$ 时，我们采用基于目标对象区域的相对大小。这是因为人们通常通过放大或缩小图像，在一个有利的视野内标注目标对象。我们研究了所提出的算法在若干不同噪声环境中的效果，包括 $\alpha \in \{ 0.3, 0.5, 0.7, 1.0 \}$ 和 $\beta \in \{0.5, 0.7\}$ 的所有组合。图~\ref{fig:noise_pattern}给出一些生成的噪声标签的例子。
+\begin{figure*}[tbp]
+	\centering 
+	\includegraphics[width=1.0\textwidth]{img/c4/sup_noise_pattern.pdf}
+	\bicaption{噪声标签的可视化例子。红色曲线表明真实标签区域。}
+    {Visualization of noisy examples. Red curves indicate the groundtruth.}
+	\label{fig:noise_pattern}
+\end{figure*}
 
 
 \subsection{实验设置}
