@@ -83,14 +83,29 @@
         \label{fig:vis_select}
     \end{figure*}
 
-
-
 \subsubsection{训练停止标准}
+虽然前述的选择更新策略可以使网络利用大部分干净的标签数据来训练，但一些噪声标签仍会不可避免地被选中并逐渐影响模型的性能。为了解决这个问题，我们提出了一个标准，它在过拟合之前停止网络训练。我们的训练停止标准是根据所选数据和剩余数据之间的损失差距 $G_l$ 来定义的，如下：
+\begin{equation}\label{loss_gap}
+	G_{l} =    \frac{1}{K-|\mathcal{\hat{D}}_s|}\sum_{k \notin \mathcal{\hat{D}}_s}\ell_k^{sp} - \frac{1}{|\mathcal{\hat{D}}_s|}\sum_{k \in \mathcal{\hat{D}}_s}\ell_k^{sp} 
+\end{equation}
 
+直观地，深度模型倾向于首先学习干净数据中相对简单的模式，然后开始对标签噪声进行过拟合\citep{arpit2017closer}。因此，$G_{l}$ 首先逐渐升高，然后开始降低。基于这一观察，我们在 $G_{l}$ 达到最大值时开始下降之前停止模型训练。
+训练结束后，实验观察到两个对等网络的输出非常相似。因此，在测试/部署阶段我们任意选择一个网络进行预测。
 
 \subsubsection{标签更新}
 
+在标签更新阶段，我们使用训练好的网络来估计超像素标签的可靠性，并对不可靠的超像素子集更新标签。具体来说，我们选择出具有大损失值的超像素，这表明模型预测和它们的标签之间存在明显的不一致。然后，我们根据预测的类别标签对选择的部分进行重新标注。形式上，我们根据超像素的损失来定义不可靠的超像素 $\mathcal{\hat{D}}_u$，并计算出预测的超像素标签 $\mb{\hat{Y}} =\{\hat{Y}_i\}_{i=1}^K,\hat{Y}_i\in \{1,\cdots,C\}$，如下：
+\begin{align}
+    {\mathcal{\hat{D}}}_u &= {\arg\max}_{{\mathcal{D}_u}: N({\mathcal{D}_u})\le (1-{R})\cdot M} \sum_{k\in{\mathcal{D}_u}}\ell_k^{sp} \\
+    \hat{Y}_k &= \mathop{\arg\max}_{c}\frac{1}{2}(\mathbf{P}_s^1(c,k) + \mathbf{P}_s^2(c,k))
+\end{align}
+其中 $\ell_k^{sp}$ 在公式~\ref{l_k}中定义，$R$ 是之前提到的选择比例。最后，我们更新像素级标签图 $\mb{Y}'=\{Y'_i\}_{i=1}^M, Y'_i\in\{1,\cdots, C\}$ 为
+\begin{equation}
+	Y_i' = \mathds{1}(S_i \in {\mathcal{\hat{D}}}_u )\hat{Y}_{S_i} + \mathds{1}(S_i \notin {\mathcal{\hat{D}}}_u )Y_i
+\end{equation}
+在标签更新之后，我们用 $\mb{Y}'$ 替换 $\mb{Y}$，用一个固定的比例 $\gamma$ 增加 $R$ ，然后开始下一轮迭代。
 
+我们对比了基于像素和基于超像素的标签更新结果，如图~\ref{fig:vis_correct} 所示。红色曲线内的区域为真实标签，蓝色曲线内的区域为噪声标签（第二列）或更新后的标签（第三、四列）。可以得出，我们的方法结果更接近真实标签，在物体的边缘区域的效果提升很多。
     \begin{figure*}[tbp]
         \centering 
         \includegraphics[width=1.0\textwidth]{img/c4/b_correct2.png}
@@ -98,7 +113,6 @@
         {Visualization results of our label refinement. The first two rows show original images and noisy labels, respectively, and we compare refined labels based on pixel-level and superpixel-level methods in the last two rows. Red curves shows the groundtruth label, and blue curves shows the noisy or refined label.}
         \label{fig:vis_correct}
     \end{figure*}
-
 
 \section{实验}
 
