@@ -1719,6 +1719,19 @@
     \endcomment
   \fi
 }
+% lin add
+\newenvironment{education}{%
+  \sht@check@resume@title
+  \section*{教育经历：}
+  \ifsht@anonymous
+    \sht@anonymous@str\par
+    \comment
+  \fi
+}{%
+  \ifsht@anonymous
+    \endcomment
+  \fi
+}
 \newenvironment{publications}{%
   \sht@check@resume@title
   \ifsht@anonymous
