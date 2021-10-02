@@ -47,7 +47,7 @@
 
 形式上，给定一个图像 $\mb{X}$ 及其对应的噪声标签 $\mb{Y}$，我们生成图像对应的超像素图 $\mb{S} =\{S_i\}_{i=1}^M$，其中 $S_i\in\{1,2,\cdots, K\}$，$K$ 是超像素的数目。这里，$S_j=k$ 意味着像素 $j$ 属于超像素 $k$。
 
-我们的目标是训练两个深度神经网络，分别用 $f(\cdot, \theta_1)$ 和 $f(\cdot, \theta_2)$ 表示。为了定义每个图像的损失，我们从两个网络生成预测概率图，表示为 $\mb{P}_s^i\in\mathbb{R}^{C \times K}, i=1,2$。然后我们通过每个超像素取平均，计算图像的超像素级的概率图 $\mb{P}_s^i\in\mathbb{R}^{C \times K}, i=1,2$ 以及相应的软标签 ${\mb{Y}_s}\in[0,1]^{C\times K}$：
+我们的目标是训练两个深度神经网络，分别用 $\mathcal{F}(\cdot, \theta_1)$ 和 $\mathcal{F}(\cdot, \theta_2)$ 表示。为了定义每个图像的损失，我们从两个网络生成预测概率图，表示为 $\mb{P}_s^i\in\mathbb{R}^{C \times K}, i=1,2$。然后我们通过每个超像素取平均，计算图像的超像素级的概率图 $\mb{P}_s^i\in\mathbb{R}^{C \times K}, i=1,2$ 以及相应的软标签 ${\mb{Y}_s}\in[0,1]^{C\times K}$：
 \begin{align} \label{eq:joint_prob}
     \mb{P}^i_s(c,k) = \frac{1}{N(k)}\sum_{j:S_j = k} \mb{P}^i(c,j)
 \end{align}
@@ -62,14 +62,14 @@
 第一项两个网络的分类损失，使得我们能优先选择小损失值（根据网络的记忆效应，其标签置信度高）的标签。第二项的预测一致性损失，则是为了挖掘较难的样本来训练。这些较难的样本可能本身不容易学习，导致损失值较大，但两个网络相似的预测可以增加其标签置信度，使得它们也加入训练提高性能。
 通过在小损失标准中同时考虑以上两项，我们的目标是选择标签噪声低的训练数据进行选择，来更新模型参数，同时使两个网络的一致性最大化。
 
-被选择的用于训练的像素比例标记为 $R$，我们通过小损失选择标准，选出一个超像素集 $\mathcal{\hat{D}}_s$，如下：
+被选择的用于训练的像素比例标记为 $R$，我们通过小损失选择标准，选出一个超像素集 $\mathcal{\hat{D}}_c$，如下：
 \begin{equation}
-	{\mathcal{\hat{D}}}_s = {\arg\min}_{{\mathcal{D}_s}: N({\mathcal{D}_s})\ge R\cdot M} \sum_{k\in{\mathcal{D}_s}}\ell^{sp}_k 
+	{\mathcal{\hat{D}}}_c = {\arg\min}_{{\mathcal{D}_c}: N({\mathcal{D}_c})\ge R\cdot M} \sum_{k\in{\mathcal{D}_c}}\ell^{sp}_k 
 \end{equation}
-其中 $N({\mathcal{D}_s}) = \sum_{k\in {\mathcal{D}_s}} N(k)$ 是超像素集的总像素数目。
+其中 $N({\mathcal{D}_c}) = \sum_{k\in {\mathcal{D}_c}} N(k)$ 是超像素集的总像素数目。
 小损失选择过程后，我们根据平均损失来训练网络：
 \begin{equation}
-	\mathcal{L} = \frac{1}{N(\mathcal{\hat{D}}_s)}\sum_{S_i \in \mathcal{\hat{D}}_s}\ell_i
+	\mathcal{L} = \frac{1}{N(\mathcal{\hat{D}}_c)}\sum_{S_i \in \mathcal{\hat{D}}_c}\ell_i
 \end{equation}
 其中 $\ell$ 的形式与公式~\ref{l_k} 一致，除了它定义在像素层面上。这里我们为了实现更有效的反向传播，跳过了公式~\ref{eq:joint_prob} 中的超像素级汇聚。
 
@@ -87,7 +87,7 @@
 \subsubsection{训练停止标准}
 虽然前述的选择更新策略可以使网络利用大部分干净的标签数据来训练，但一些噪声标签仍会不可避免地被选中并逐渐影响模型的性能。为了解决这个问题，我们提出了一个标准，它在过拟合之前停止网络训练。我们的训练停止标准是根据所选数据和剩余数据之间的损失差距 $G_l$ 来定义的，如下：
 \begin{equation}\label{loss_gap}
-	G_{l} =    \frac{1}{K-|\mathcal{\hat{D}}_s|}\sum_{k \notin \mathcal{\hat{D}}_s}\ell_k^{sp} - \frac{1}{|\mathcal{\hat{D}}_s|}\sum_{k \in \mathcal{\hat{D}}_s}\ell_k^{sp} 
+	G_{l} =    \frac{1}{K-|\mathcal{\hat{D}}_c|}\sum_{k \notin \mathcal{\hat{D}}_c}\ell_k^{sp} - \frac{1}{|\mathcal{\hat{D}}_c|}\sum_{k \in \mathcal{\hat{D}}_c}\ell_k^{sp} 
 \end{equation}
 
 直观地，深度模型倾向于首先学习干净数据中相对简单的模式，然后开始对标签噪声进行过拟合\citep{arpit2017closer}。因此，$G_{l}$ 首先逐渐升高，然后开始降低。基于这一观察，我们在 $G_{l}$ 达到最大值时开始下降之前停止模型训练。
@@ -95,14 +95,14 @@
 
 \subsubsection{标签更新}
 
-在标签更新阶段，我们使用训练好的网络来估计超像素标签的可靠性，并对不可靠的超像素子集更新标签。具体来说，我们选择出具有大损失值的超像素，这表明模型预测和它们的标签之间存在明显的不一致。然后，我们根据预测的类别标签对选择的部分进行重新标注。形式上，我们根据超像素的损失来定义不可靠的超像素 $\mathcal{\hat{D}}_u$，并计算出预测的超像素标签 $\mb{\hat{Y}} =\{\hat{Y}_i\}_{i=1}^K,\hat{Y}_i\in \{1,\cdots,C\}$，如下：
+在标签更新阶段，我们使用训练好的网络来估计超像素标签的可靠性，并对不可靠的超像素子集更新标签。具体来说，我们选择出具有大损失值的超像素，这表明模型预测和它们的标签之间存在明显的不一致。然后，我们根据预测的类别标签对选择的部分进行重新标注。形式上，我们根据超像素的损失来定义不可靠的超像素 $\mathcal{\hat{D}}_r$，并计算出预测的超像素标签 $\mb{\hat{Y}} =\{\hat{Y}_i\}_{i=1}^K,\hat{Y}_i\in \{1,\cdots,C\}$，如下：
 \begin{align}
-    {\mathcal{\hat{D}}}_u &= {\arg\max}_{{\mathcal{D}_u}: N({\mathcal{D}_u})\le (1-{R})\cdot M} \sum_{k\in{\mathcal{D}_u}}\ell_k^{sp} \\
+    {\mathcal{\hat{D}}}_r &= {\arg\max}_{{\mathcal{D}_r}: N({\mathcal{D}_r})\le (1-{R})\cdot M} \sum_{k\in{\mathcal{D}_r}}\ell_k^{sp} \\
     \hat{Y}_k &= \mathop{\arg\max}_{c}\frac{1}{2}(\mathbf{P}_s^1(c,k) + \mathbf{P}_s^2(c,k))
 \end{align}
 其中 $\ell_k^{sp}$ 在公式~\ref{l_k}中定义，$R$ 是之前提到的选择比例。最后，我们更新像素级标签图 $\mb{Y}'=\{Y'_i\}_{i=1}^M, Y'_i\in\{1,\cdots, C\}$ 为
 \begin{equation}
-	Y_i' = \mathds{1}(S_i \in {\mathcal{\hat{D}}}_u )\hat{Y}_{S_i} + \mathds{1}(S_i \notin {\mathcal{\hat{D}}}_u )Y_i
+	Y_i' = \mathds{1}(S_i \in {\mathcal{\hat{D}}}_r )\hat{Y}_{S_i} + \mathds{1}(S_i \notin {\mathcal{\hat{D}}}_r )Y_i
 \end{equation}
 在标签更新之后，我们用 $\mb{Y}'$ 替换 $\mb{Y}$，用一个固定的比例 $\gamma$ 增加 $R$ ，然后开始下一轮迭代。
 
@@ -122,10 +122,31 @@
 
 \subsection{实验数据集}
 \paragraph{ISIC 数据集}
-ISIC 2017数据集\citep{Gutman2018SkinLA}是一个公开的大规模皮肤镜图像数据集，从多个地点使用的各种设备中收集得到。该数据集包含 2000 张训练图像和 600 张测试图像，并有相应的分割掩膜。我们将所有图像大小调整为 128$\times$128 的分辨率。
+ISIC 2017数据集\citep{Gutman2018SkinLA}是一个大规模的可公开访问的皮肤镜图像数据集。这些图像从国际领先的临床中心收集，包含多个中心的各种设备获得的数据。
+该数据集是为了支持在病变分析的三个任务中开发黑色素瘤自动诊断算法：分割、特征检测以及分类，我们主要研究其中的分割问题。
+数据中包含了 2000 张训练图像和 600 张测试图像，并有相应的手动分割掩膜，如图~\ref{fig:isic_intro}所示。为了方法训练，我们将所有图像大小调整为 128$\times$128 的分辨率。
+    \begin{figure*}[tbp]
+        \centering 
+        \includegraphics[width=1.0\textwidth]{img/c4/c_isic.png}
+        \bicaption{ISIC 数据集的图像示例。第一行为原始彩色图像，第二行为皮肤病变的分割掩膜。}
+        {Examples from ISIC dataset. Top: Original color images. Bottom: Segmentation masks of skin lesion.}
+        \label{fig:isic_intro}
+    \end{figure*}
+
 
 \paragraph{JSRT 数据集}
-JSRT数据集\citep{Shiraishi2000DevelopmentOA,Ginneken2006SegmentationOA}是一个公共的胸部X射线数据集，包含三种类别的标签：肺、心脏和锁骨。总共有 247 张胸部 X 光片，统一分辨率为2048$\times$2048。我们把它们分成 197 张图片的训练集和 50 张图片的测试集，并调整大小为256$\times$256。\footnote{在胸部 X 射线图像中，锁骨区域较小。为了便于细化分割并减少计算时间，我们通过对训练集的统计来裁剪出包含锁骨的区域。}
+JSRT数据集\citep{Shiraishi2000DevelopmentOA,Ginneken2006SegmentationOA}是一个公共的胸部X射线数据集，总共有 247 张胸部 X 光片，收集自 13 家日本机构和 1 家美国机构。
+这些图像从胶片上扫描，尺寸为 2048$\times$2048 像素，空间分辨率为每个像素 0.175 mm 及 12 位灰度等级。
+在 247 张图像中，154 张图像包含一个肺部结节，其余 93 张图像不包含结节。
+图像标注包含三种类别的标签：肺、心脏和锁骨，如图~\ref{fig:jsrt_intro}所示。
+我们把它们分成 197 张图片的训练集和 50 张图片的测试集，并调整大小为 256$\times$256。\footnote{在胸部 X 射线图像中，锁骨区域较小。为了便于细化分割并减少计算时间，我们通过对训练集的统计来裁剪出包含锁骨的区域。}
+    \begin{figure*}[tbp]
+        \centering 
+        \includegraphics[width=1.0\textwidth]{img/c4/c_jsrt.png}
+        \bicaption{JSRT 数据集的图像示例。从第一列到第四列分别为：原始灰度图像，肺部、心脏和锁骨的分割掩膜。}
+        {Examples from JSRT dataset. From first column to last column: original gray images, segmentation masks of lung, heart and clavicle.}
+        \label{fig:jsrt_intro}
+    \end{figure*}
 
 \paragraph{标签噪声模式}
 为了模拟真实的噪声标签，我们从训练数据中随机选择一个比例 $\alpha$ 的图像样本来应用形态学操作\citep{Zhu2019PickandLearnAQ, Zhang2020CharacterizingLE,Zhang2020RobustMI,Xue2020CascadedRL} 或仿射变换，噪声水平由 $\beta$ 控制。
@@ -257,9 +278,8 @@ JSRT数据集\citep{Shiraishi2000DevelopmentOA,Ginneken2006SegmentationOA}是一
 
 为了探索所提方法的泛化能力，我们还在 JSRT 数据集上进行了实验。图~\ref{fig:jsrt_curve}展示了三种类别的平均结果，详细数值见表~\ref{tab:jsrt}。
 我们的方法在所有类别上都稳定地优于其他方法。同时，随着噪声水平的增加，我们的方法有轻微的下降，表现出较强的鲁棒性。特别是在极端的噪声设置$(\alpha=0.7, \beta=0.7)$下，我们实现了平均 89.95\% dice，超过了JoCoR（83.73\%）、Tri-network（83.18\%）和Co-teaching（82.99\%）的表现。
-总之，上述结果验证了我们方法的高性能、强泛化性和强鲁棒性。
-
-我们还给出了在 JSRT 数据集的分割结果可视化，以形象地对比各种方法的效果。图~\ref{fig:jsrt_vis}的结果表明，我们对三类的预测分割结果更接近真实标注，有更准确的形状与边缘。
+总之，上述结果验证了我们方法的高性能、强泛化性和强鲁棒性。实验中我们还可视化对比了各种方法在 JSRT 数据集的分割结果，表明我们对三类的预测分割结果更接近真实标注，有更准确的形状与边缘。
+% 我们还给出了在 JSRT 数据集的分割结果可视化，以形象地对比各种方法的效果。图~\ref{fig:jsrt_vis}的结果表明，我们对三类的预测分割结果更接近真实标注，有更准确的形状与边缘。
 
     % test visualization
     \begin{figure*}[tbh]
@@ -270,14 +290,14 @@ JSRT数据集\citep{Shiraishi2000DevelopmentOA,Ginneken2006SegmentationOA}是一
         \label{fig:jsrt_curve}
     \end{figure*}
 
-    % jsrt vis
-    \begin{figure*}[tbp]
-        \centering 
-        \includegraphics[width=1.0\textwidth]{img/c4/jsrt_vis.pdf}
-        \bicaption{不同方法在 JSRT 数据集的定性比较，三种目标类别分别是肺，心脏和锁骨。红色曲线和蓝色曲线分别表明真实标签和预测标签的区域。}
-        {Qualitative comparisons of different methods on JSRT dataset. Three target clases are lung, heart and clavicle, respectively. Red and blue curves show the groundtruth and predicted masks, respectively.}
-        \label{fig:jsrt_vis}
-    \end{figure*}
+    % % jsrt vis
+    % \begin{figure*}[tbp]
+    %     \centering 
+    %     \includegraphics[width=1.0\textwidth]{img/c4/jsrt_vis.pdf}
+    %     \bicaption{不同方法在 JSRT 数据集的定性比较，三种目标类别分别是肺，心脏和锁骨。红色曲线和蓝色曲线分别表明真实标签和预测标签的区域。}
+    %     {Qualitative comparisons of different methods on JSRT dataset. Three target clases are lung, heart and clavicle, respectively. Red and blue curves show the groundtruth and predicted masks, respectively.}
+    %     \label{fig:jsrt_vis}
+    % \end{figure*}
 
     % Table: JSRT dataset
     \begin{table}[thb]
