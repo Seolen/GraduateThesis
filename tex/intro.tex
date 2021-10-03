@@ -7,7 +7,7 @@
 % 图像的语义分割：任务描述，应用，数据标注的问题（标注不足，标签错误）
 图像语义分割（Image Semantic Segmentation），是计算机视觉领域的一个基本任务，旨在生成像素级别的物体类别表示\citep{long2015fully,chen2017deeplab,ronneberger2015u,isensee2019automated}，如图~\ref{c1_fig1}所示。换句话说，它可以看作一种像素级别的分类任务，细粒度是其重要特点。它对目标物体（比如器官、组织、肿瘤等）进行完整的识别，提供目标物体的形状或体积的关键信息，在计算机辅助医学中有应用广泛。比如，对器官及所附肿瘤的分割结果，可以准确呈现病症乃至判断病型；血管的完整分割，能够作为手术操作依据；肠道的分割建模，能够快速定位病灶。
 
-    \begin{figure*}[tbp]
+    \begin{figure*}[t!]
         \centering 
         \includegraphics[width=1.0\textwidth]{img/c1/intro_1.png}
         \bicaption{医学图像中语义分割任务的例子：第一行是胸部 CT 图像\citep{lambert2020segthor}，分割标注覆盖在原图像上，第二行是腹部的 CT、MR T1 和 MR T2 图像及其分割标注~\citep{kavur2021chaos}。}
@@ -17,7 +17,7 @@
     \end{figure*}
 
 
-传统的图像语义分割根据图像的颜色空间、空间距离及纹理等特征进行处理，包括聚类分割\citep{coates2012learning}、阈值分割\citep{ying2005fast}、决策树分类\citep{shotton2008semantic}、图割分割\citep{vicente2008graph}等方法。
+传统的图像语义分割依据图像的颜色空间、空间结构及纹理等特征来进行处理，包括聚类分割\citep{coates2012learning}、阈值分割\citep{ying2005fast}、决策树分割\citep{shotton2008semantic}、图割分割\citep{vicente2008graph}等方法。
 随着深度学习技术，特别是卷积神经网络（Convolutional Neural Network, CNN）在计算机视觉的广泛应用，语义分割技术迎来了新的发展。深度神经网络可以从大量的标注数据中自动学习提取丰富的高阶语义特征，并基于提取出的特征进行推理，预测图像的像素级标签。以全卷积神经网络（Fully Convolutional Network, FCN）为开端的一系列分割工作，极大提高了该任务的准确度与应用场景的广泛性。
 
 % 医学图像语义分割 背景
