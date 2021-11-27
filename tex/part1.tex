@@ -64,7 +64,7 @@
 
     \begin{figure*}[t!]
         \centering 
-        \includegraphics[width=1.0\textwidth]{img/c3/c_weak_annotation3.png}
+        \includegraphics[width=1.0\textwidth]{img/c3/f33m.png} % c_weak_annotation3
         \bicaption{不同标注方法的示意图，分别在气管的连通和分叉区域（第一、二行）和前列腺（第三行）的图像上展示。第一列为精确的全标注，第二列为我们的混合式标注方法，第三列是涂鸦式标注（由前景区域膨胀操作模拟生成），第四列是紧致的边界框标注。}
         {We show different annotations for trachea (first row: connected part, second row: separate part) and prostate (last row). Four rows show groundtruth, our hybrid label, scribble and bounding box, respectively. Scribble (dilation) denotes generated scribble by foreground mask dilation.}
         \label{fig:weak_annotation}
@@ -105,7 +105,7 @@
 为了使我们的形状去噪网络具备处理上述错误的能力，我们设计了三种相应的噪声增强操作。(1) 形态学的闭操作；(2) 形态学的膨胀；(3) 边缘切片的形状延伸。例子如图~\ref{fig:shape_aug}所示。
     \begin{figure*}[tbp]
         \centering 
-        \includegraphics[width=1.0\textwidth]{img/c3/b_shape_aug2.png}
+        \includegraphics[width=1.0\textwidth]{img/c3/f34m.png}
         \bicaption{气管分割上，我们自学习的形状表征和对应的噪声增强的示意图。}
         {An example of our self-taught shape representation and corresponding augmentation effect on trachea.}
         \label{fig:shape_aug}
@@ -155,6 +155,9 @@ SegTHOR挑战赛\footnote{https://competitions.codalab.org/competitions/21145}\c
 \paragraph{PROMISE12挑战赛}
 PROMISE12挑战赛\footnote{https://promise12.grand-challenge.org}\citep{Litjens2014EvaluationOP}包含 50 个横向 T2 加权 MR 图像，采用多种扫描协议，其分割目标前列腺位于图像的中央区域。这个数据集中的所有病例都是各向异性的，间距$2\times0.27\times0.27 mm^{3}$ 到 $4\times0.75\times0.75 mm^{3}$。由于官方已不再支持在线测试，我们采用与\citet{kervadec2020bounding}相同的设置，将 50 个扫描图分成 40 个用于训练，10 个用于验证。
 % 由于在线测试已不再支持，我们报告验证部集上的结果。
+
+\paragraph{评价指标}
+对所有数据集，我们都采用 Dice 系数（Dice coefficient) 作为分割评价指标。我们直接计算每个三维体积样本的 Dice 系数并统计均值。
 
 \subsection{实现细节} \label{sec:detail}
 
@@ -282,7 +285,7 @@ PROMISE12挑战赛\footnote{https://promise12.grand-challenge.org}\citep{Litjens
 
     \begin{figure*}[tbp]
         \centering 
-        \includegraphics[width=1.0\textwidth]{img/c3/final_vis4.png}
+        \includegraphics[width=1.0\textwidth]{img/c3/f35m.png}
         \bicaption{不同方法在两个数据集上的可视化结果，实验设定是 30\% 的弱标注比例。第一行：气管的三维分割，第二行：前列腺的三维分割。}
         {Qualitative results on three datasets with 30\% labeled slices. First row: trachea segmentation. Second row: prostate segmentation.}
         \label{fig:vis}

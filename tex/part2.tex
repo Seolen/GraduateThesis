@@ -78,7 +78,7 @@
 
     \begin{figure*}[tbp]
         \centering 
-        \includegraphics[width=1.0\textwidth]{img/c4/b_select2.png}
+        \includegraphics[width=1.0\textwidth]{img/c4/f42m.png}
         \bicaption{网络更新中的选择过程的可视化结果。我们比较了基于超像素的方法与基于像素的方法。Oracle 对应理想的选择结果。浅色掩膜表示选择的区域，深色掩膜表示筛除的区域。}
         {Visualization results of our selection method in network updating. We compare our superpixel-based method with pixel-based method. Oracle is short for oracle selection map. We denote selected region in light matte, leaving sieved region in dark matte. }
         % (b) Red curves shows the groundtruth label, and blue curves shows the noisy or refined label.
@@ -110,7 +110,7 @@
 我们对比了基于像素和基于超像素的标签更新结果，如图~\ref{fig:vis_correct} 所示。红色曲线内的区域为真实标签，蓝色曲线内的区域为噪声标签（第二列）或更新后的标签（第三、四列）。可以得出，我们的方法结果更接近真实标签，在物体的边缘区域的效果提升很多。
     \begin{figure*}[tbp]
         \centering 
-        \includegraphics[width=1.0\textwidth]{img/c4/b_correct2.png}
+        \includegraphics[width=1.0\textwidth]{img/c4/f43m.png}
         \bicaption{标签更新过程的可视化结果。前两列分别是原始图像和噪声标签，我们在后两列比较了基于像素和基于超像素的更新结果。红色曲线内的区域为真实标签，蓝色曲线内的区域为噪声标签或更新后的标签。}
         {Visualization results of our label refinement. The first two rows show original images and noisy labels, respectively, and we compare refined labels based on pixel-level and superpixel-level methods in the last two rows. Red curves shows the groundtruth label, and blue curves shows the noisy or refined label.}
         \label{fig:vis_correct}

@@ -19,14 +19,14 @@
 
     \begin{figure*}[tbp]
         \centering 
-        \includegraphics[width=1.0\textwidth]{img/c2/rel_a1.png}
+        \includegraphics[width=0.7\textwidth]{img/c2/rel_a1.png}
         \bicaption{使用图像级标签的 DeepLab 模型训练过程。图自~\citet{papandreou2015weakly}。}{DeepLab model training using image-level labels. Figure is from~\citet{papandreou2015weakly}.}
         \label{c2_fig1}
     \end{figure*}
 
     \begin{figure*}[tbp]
         \centering 
-        \includegraphics[width=1.0\textwidth]{img/c2/rel_a2.png}
+        \includegraphics[width=0.7\textwidth]{img/c2/rel_a2.png}
         \bicaption{使用边界框标签的 DeepLab 模型训练过程。图自~\citet{papandreou2015weakly}。}{DeepLab model training from bounding boxes. Figure is from~\citet{papandreou2015weakly}.}
         \label{c2_fig2}
     \end{figure*}
@@ -65,7 +65,9 @@
 另外，有些组织由多个子区域构成，比如脑肿瘤可能包括两到三种子区域，每个子区域都需要单独分割。如果每个子区域进行完整标注，耗时而低效。\citet{ji2019scribble}为这种任务提出了一种结合两种弱标签形式的标注方法，来减少标注成本。这种混合标注策略是，对整体的肿瘤区域用涂鸦式标签，而对各个子区域给出全局图像级标签。这种方式下，整体的肿瘤区域通过涂鸦式标签来学习，图像级标签用来引导子区域的聚类。这篇文章提出通过级联模型的方式，来解决这样具有层次结构的分割任务。
 模型如图~\ref{c2_fig5}。受之前的级联网络的启发，这个模型采用先训练整体肿瘤分割，再子区域分割的方式。具体地，作者先用涂鸦式标签和由其初始化得到的图割标签，来训练整体肿瘤的分割网络。之后再在图像级标签的引导下，用无监督聚类方法提取肿瘤的各个子区域。最后把聚类得到的标签作为弱标签，来训练第二个子区域分割网络。作者还在分割网络训练中加入了 Dense CRF Loss，来提高分割边缘的连续性与准确性。这种方法在 BraTS2017 数据集\citep{menze2014multimodal}上进行了评估，在整体肿瘤分割和子区域分割上都取得了接近全监督上限的结果。
 
-以上方法有共同之处：都是利用推理方法（GrabCut、CRF或初始化模型推理）来显式地生成伪标签，然后经处理后作为训练目标来优化模型。除了显式生成伪标签再训练，另一类方法直接使用弱标签训练，通过施加先验正则项来约束训练，以求较好的训练结果。\citet{kervadec2020bounding}和 \citet{tang2018regularized}是近期的重要工作。
+以上方法有共同之处：都是利用推理方法（GrabCut、CRF或初始化模型推理）来显式地生成伪标签，然后经处理后作为训练目标来优化模型。除了显式生成伪标签再训练，另一类方法直接使用弱标签训练，通过施加先验正则项来约束训练，以求较好的训练结果。\citet{tang2018regularized}和 \citet{kervadec2020bounding}是近期的重要工作。
+
+\citet{tang2018regularized}在涂鸦式标签上探索把正则项融入损失函数，以实现在训练中结合浅层分割的效果（如图割法或 Dense CRF）。这篇文章通过设计 MRF/CRF 形式的约束项，来为分割模型引入浅层分割的特性如连续性、相关性、空间关系等。这种隐式的约束方法简化了弱监督的训练，避免了额外的 MRF/CRF 推理步骤来生成伪标签，提高了训练的质量和效率。这篇文章提出了几种用于弱监督的正则损失，分别是基于 Potts、Dense CRF 和 Kernelcut 的正则。作者通过 PASCAL VOC12\citep{everingham2015pascal} 的实验对比了之前的生成伪标签的方法和不同正则损失函数，验证了所提出方法在弱监督语义分割的接近全监督的效果。
 
 \citet{kervadec2020bounding} 采用边界框标签，提出了一种基于全局约束的弱监督分割方法。作者首先提出了边界框的拓扑先验，包括框内的紧致性先验、框外的全背景先验和前景区域尺寸先验，这些先验被作为约束条件加入模型的训练目标。不过这些先验是不等式形式的约束，为了直接训练，作者通过对数障碍惩罚函数把不等式约束处理为损失函数的形式。这种利用全局约束来解决弱监督问题的方法，充分利用了领域先验知识，避免了只有少量标签训练的结果不确定性。并且基于约束方法能实现端到端的训练，可以避免显式生成伪标签过程中的错误传播。
     \begin{figure*}[tbp]
@@ -76,8 +78,6 @@
     \end{figure*}
 全局约束充分考虑利用弱标签的信息。紧致性先验如图~\ref{c2_fig6}所示，基于边界框紧致地包围着目标物体边界，在框内的任意一条水平或竖直线段都会至少与一个前景像素相交。这种先验约束，能够防止训练过程中过拟合到背景类别而前景预测失败的问题。全背景先验是指边界框外的区域都属于背景类别，约束了前景的空间区域。前景区域尺寸先验，则是指目标物体在框内的面积比例有先验的下界与上界，利用尺寸先验可以约束分割结果的区域比例关系。这些全局先验通过对数障碍惩罚函数转换为标准的损失函数形式，可以直接使用随机梯度下降方法进行优化。
 这篇文章在两个不同的公开数据集 PROMISE12\citep{Litjens2014EvaluationOP}和 ATLAS\citep{Liew2018ALO}进行试验，结果表明，这种方法可以接近全监督的分割效果，并且显著超过之前的 DeepCut 方法，同时避免了显式生成伪标签的耗时计算。
-
-\citet{tang2018regularized}则在涂鸦式标签上探索把正则项融入损失函数，以实现在训练中结合浅层分割的效果（如图割法或 Dense CRF）。这篇文章通过设计 MRF/CRF 形式的约束项，来为分割模型引入浅层分割的特性如连续性、相关性、空间关系等。这种隐式的约束方法简化了弱监督的训练，避免了额外的 MRF/CRF 推理步骤来生成伪标签，提高了训练的质量和效率。这篇文章提出了几种用于弱监督的正则损失，分别是基于 Potts、Dense CRF 和 Kernelcut 的正则。作者通过 PASCAL VOC12\citep{everingham2015pascal} 的实验对比了之前的生成伪标签的方法和不同正则损失函数，验证了所提出方法在弱监督语义分割的接近全监督的效果。
 
 
 \subsection{自学习方法} \label{sec:rel_stl}
@@ -129,12 +129,11 @@
         \centering 
         \includegraphics[width=1.0\textwidth]{img/c2/rel_b5.png}
         \bicaption{增强型去噪自编码器的结构和训练过程。图自~\citet{Sundermeyer_2018_ECCV}。}{Augmented Autoencoder and its training process. Figure is from~\citet{Sundermeyer_2018_ECCV}.}
-        \label{c2_fig10}
+        \label{c2_fig11}
     \end{figure*}
 
 \section{基于噪声标签的语义分割}
 基于噪声标签的语义分割作为弱监督的另一种类型，面临着训练标签中有一部分错误的问题。如何有效利用好噪声标签，来训练得到鲁棒的语义分割网络，是该任务的核心问题。近来已有一些工作\citep{Zhu2019PickandLearnAQ,Xue2020CascadedRL,Zhang2020CharacterizingLE,Zhang2020RobustMI}，在该任务上做了探索，并取得了一些进展。
-
 对噪声标签的利用，需要模型具备评估标签质量的能力，以决定使用或丢弃哪些标签。正确的标签可以让模型充分训练，而噪声标签会干扰训练结果，甚至由于深度神经网络的较强的表征能力，模型会记住这些标签错误。除了设计方法尽可能选出正确标签来学习，另一方面，根据训练过程中学到的信息，错误标签也可以被纠正为正确标签，带来进一步的性能提升。
 
 \citet{Zhu2019PickandLearnAQ} 在分割网络中引入了标签质量评估策略，来自动评估每张图像的标签质量，随后利用正确的标签进行训练。这篇文章提出了一个分割网络，其自动评估训练集里标签的相对质量，并使用好的标签来更新网络参数。自动评估的想法来自于标签与输入图像的一致性关系，噪声标签往往与输入样本有明显的冲突，这区别于同一批次中对比正确标签与输入样本的关系。此外还设计了一个过拟合控制模块，让网络在训练过程中尽可能地从精确标签中学习。过拟合控制模块可以确保有足够的可训练样本和避免过拟合。
@@ -142,9 +141,9 @@
         \centering 
         \includegraphics[width=1.0\textwidth]{img/c2/rel_c1.png}
         \bicaption{应用标签质量评估策略的端到端分割模型。图自~\citet{Zhu2019PickandLearnAQ}。}{The end-to-end architecture of the proposed label quality evaluation strategy. Figure is from~\citet{Zhu2019PickandLearnAQ}.}
-        \label{c2_fig11}
+        \label{c2_fig11m}
     \end{figure*}
-模型结构如图~\ref{c2_fig11}所示，该工作的中心目标是使用网络来计算同一批次中图像的相对质量分数，并找到存在于噪声标签中的冲突信息，利用这些信息，网络可以将噪声标签和正确标签区分开来。该模型由三个组成模块：分割模块、质量评估模块和过拟合控制模块。
+模型结构如图~\ref{c2_fig11m}所示，该工作的中心目标是使用网络来计算同一批次中图像的相对质量分数，并找到存在于噪声标签中的冲突信息，利用这些信息，网络可以将噪声标签和正确标签区分开来。该模型由三个组成模块：分割模块、质量评估模块和过拟合控制模块。
 训练过程中，与有正确标签的样本相比，有噪声标签的样本的预测分割会有较高的损失值，直接训练会干扰模型的学习能力和效果。为了对同一批次样本进行重新加权，质量评估模块和过拟合控制模块联合为每个输入产生相对权重，这个权重与分割模块计算的损失相乘，作为最终损失进行反向传播。这样，正确标签和噪声标签对模型的训练有不同权重的影响，使得模型能进行正确训练且具备抗噪声干扰能力。
 分割模块是通用的生成语义分割的卷积神经网络，用以将输入图像通过多层特征提取和分辨率恢复产生分割预测。
 质量评估模块也是一个卷积网络，但它将输入图像及其标签的拼接作为输入，为每张图像输出一个对应的质量评估分数，与分割模块平行运行。
